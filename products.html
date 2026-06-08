@@ -691,12 +691,22 @@ window.addEventListener('scroll', () => {
   }
 });
 // ── GOOGLE SHEETS INTEGRATION ──
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnD5sJK3PM-Yr022ADpvVCl6KdZeMegZ5EaA3WiVPmb2nZ2wamQmfiBm6GvBi6_5h1/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBBSO-__abgksJSvBr731IdvMT_1qnDaI8_8BUwVvkyYyF_YQD6vJ6OZO8DSALLr7G/exec';
+
+function fetchSheet(sheetName) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    window[cb] = (data) => { delete window[cb]; document.head.removeChild(script); resolve(data); };
+    script.src = `${APPS_SCRIPT_URL}?sheet=${sheetName}&callback=${cb}`;
+    script.onerror = () => { delete window[cb]; reject(new Error('Failed')); };
+    document.head.appendChild(script);
+  });
+}
 
 async function loadPricingTiers() {
   try {
-    const res = await fetch(`${APPS_SCRIPT_URL}?sheet=Pricing_Tiers`);
-    const tiers = await res.json();
+    const tiers = await fetchSheet('Pricing_Tiers');
     if (!tiers || tiers.error) return;
     const tbody = document.querySelector('#pricing-table tbody');
     tbody.innerHTML = tiers.map((t, i) => {
@@ -726,8 +736,7 @@ async function loadPricingTiers() {
 
 async function loadBundle() {
   try {
-    const res = await fetch(`${APPS_SCRIPT_URL}?sheet=Bundle`);
-    const items = await res.json();
+    const items = await fetchSheet('Bundle');
     if (!items || items.error) return;
     const wrap = document.querySelector('.bundle-items');
     if (!wrap) return;
