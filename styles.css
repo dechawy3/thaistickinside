@@ -1204,7 +1204,7 @@ footer {
 
 @supports (animation-timeline: view()) {
   .sku-card, .diff-card, .bundle-item, .comp-card,
-  .chain-step, .faq-item, .tier-row {
+  .chain-step, .faq-item {
     animation: fade-in-up linear both;
     animation-timeline: view();
     animation-range: entry 0px entry 180px;
