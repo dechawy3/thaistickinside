@@ -482,6 +482,7 @@
 // ── MARGIN CALCULATOR ──
 let currentPrice = 3.00;
 let currentRefKg = 40;
+let portfolioData = [];
 function selectTierRow(row, price) {
   document.querySelectorAll('.tier-row').forEach(r => r.classList.remove('active'));
   row.classList.add('active');
@@ -860,10 +861,112 @@ function enforceSkuLimit() {
   }
 }
 
+async function loadPortfolio() {
+  try {
+    const items = await fetchSheet('Portfolio');
+    if (!items || items.error || !items.length) return;
+    portfolioData = items;
+    const grid = document.querySelector('.sku-grid');
+    if (!grid) return;
+    grid.innerHTML = items.map((p, i) => {
+      const thc = parseFloat(p.thc).toFixed(2);
+      const cbd = parseFloat(p.cbd).toFixed(2);
+      const barW = Math.round(parseFloat(p.thc) / 30 * 100);
+      const tags = p.med_tags ? p.med_tags.split(';').map(t => {
+        const v = t.trim();
+        const cls = v.toLowerCase().includes('sleep') ? 'med-sleep'
+                  : v.toLowerCase().includes('pain') ? 'med-pain'
+                  : v.toLowerCase().includes('neuro') ? 'med-neuro' : 'med-mental';
+        return `<span class="med-tag ${cls}">${v}</span>`;
+      }).join('') : '';
+      return `
+        <div class="sku-card" data-ind="${p.filter_ind}">
+          <div class="sku-top-row">
+            <span class="sku-ind ${p.ind_class}">${p.indication}</span>
+            <span class="sku-morph">${p.morphology}</span>
+          </div>
+          <div class="sku-name">${p.name}</div>
+          <div class="thc-wrap">
+            <div class="thc-label">THC / CBD</div>
+            <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:${barW}%"></div></div>
+            <div class="thc-row">
+              <span class="thc-val">${thc}%</span>
+              <span class="cbd-val">CBD ${cbd}%</span>
+            </div>
+          </div>
+          <div class="sku-med-cats">${tags}</div>
+          <div class="sku-best-pos">
+            <div class="best-pos-label">Best Medical Positions</div>
+            <div class="best-pos-item"><span class="pos-num">1.</span> ${p.pos1_name} <span class="pos-score">${p.pos1_score}</span></div>
+            <div class="best-pos-item"><span class="pos-num">2.</span> ${p.pos2_name} <span class="pos-score">${p.pos2_score}</span></div>
+            <div class="best-pos-item"><span class="pos-num">3.</span> ${p.pos3_name} <span class="pos-score">${p.pos3_score}</span></div>
+          </div>
+          <button class="btn-detail" onclick="openModalFromPortfolio(${i})">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
+            View Full Detail
+          </button>
+        </div>`;
+    }).join('');
+  } catch(e) { console.warn('Could not load portfolio:', e); }
+}
+
+function openModalFromPortfolio(idx) {
+  const p = portfolioData[idx];
+  if (!p) return;
+  const thc = parseFloat(p.thc).toFixed(2);
+  const cbd = parseFloat(p.cbd).toFixed(2);
+  const barW = Math.round(parseFloat(p.thc) / 30 * 100);
+  const coa = ['Potency — PASS','Microbiology — PASS','Pesticides — PASS','Heavy Metals — PASS','Residual Solvents — PASS','Irradiation — Confirmed'];
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-header">
+      <div>
+        <div class="modal-ind"><span class="sku-ind ${p.ind_class}">${p.indication}</span></div>
+        <div class="modal-name">${p.name}</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Potency Profile</div>
+        <div class="modal-potency">
+          <div class="potency-item"><div class="potency-label">THC</div><div class="potency-val">${thc}%</div></div>
+          <div class="potency-item"><div class="potency-label">CBD</div><div class="potency-val">${cbd}%</div></div>
+        </div>
+        <div class="thc-bar-bg" style="margin-top:8px;"><div class="thc-bar-fill" style="width:${barW}%"></div></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Terpene Profile</div>
+        <div class="terpene-list">
+          <div class="terpene-row"><span class="terpene-name">${p.terpene1_name}</span><span class="terpene-effect">${p.terpene1_effect}</span></div>
+          <div class="terpene-row"><span class="terpene-name">${p.terpene2_name}</span><span class="terpene-effect">${p.terpene2_effect}</span></div>
+          <div class="terpene-row"><span class="terpene-name">${p.terpene3_name}</span><span class="terpene-effect">${p.terpene3_effect}</span></div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Clinical Indication Breakdown</div>
+        <div class="indication-list">
+          <div class="indication-item"><strong>${p.indication1_primary}</strong>${p.indication1_detail}</div>
+          <div class="indication-item"><strong>${p.indication2_primary}</strong>${p.indication2_detail}</div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">COA Summary — TGO93 Release</div>
+        <div class="coa-grid">${coa.map(c => `<div class="coa-item"><div class="coa-pass"></div><span class="coa-label">${c}</span></div>`).join('')}</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Recommended Patient Profile</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7;">${p.patient_profile}</p>
+      </div>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadPricingTiers();
   loadBundle();
   loadSKUs();
+  loadPortfolio();
 });
 
 // ── MORE NAV DROPDOWN ──
