@@ -373,7 +373,6 @@ section { position: relative; }
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 36px;
-  position: sticky; top: 100px;
 }
 .calc-title {
   font-size: 13px; font-weight: 600; letter-spacing: 0.12em;
