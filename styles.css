@@ -967,15 +967,15 @@ footer {
   .sku-grid { grid-template-columns: 1fr; }
   .coa-grid { grid-template-columns: 1fr; }
   .vol-select { grid-template-columns: repeat(2,1fr); }
-  .tier-table th { padding: 10px 6px; font-size: 8px; }
-  .tier-table td { padding: 10px 6px; }
-  .tier-name { font-size: 11px; }
-  .tier-vol { font-size: 9px; }
-  .price-chip { font-size: 13px; }
-  .margin-bar { display: none; }
-  .margin-val { font-size: 11px; }
-  .tier-gp-cell { min-width: 60px; gap: 3px; }
-  .tier-gp-val { font-size: 11px; }
+  .tier-table th:nth-child(3), .tier-table td:nth-child(3) { display: none; }
+  .tier-table th { padding: 10px 8px; font-size: 9px; }
+  .tier-table td { padding: 12px 8px; }
+  .tier-table td:first-child { width: 44%; }
+  .tier-name { font-size: 13px; }
+  .tier-vol { font-size: 10px; }
+  .price-chip { font-size: 14px; }
+  .tier-gp-cell { min-width: 70px; gap: 4px; }
+  .tier-gp-val { font-size: 12px; }
   .vol-slider-val { font-size: 9px; }
   .log-visit-fab { bottom: 24px; right: auto; left: 16px; width: 44px; height: 44px; font-size: 24px; }
 }
