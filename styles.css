@@ -977,6 +977,7 @@ footer {
   .tier-gp-cell { min-width: 60px; gap: 3px; }
   .tier-gp-val { font-size: 11px; }
   .vol-slider-val { font-size: 9px; }
+  .log-visit-fab { bottom: 24px; right: auto; left: 16px; width: 44px; height: 44px; font-size: 24px; }
 }
 
 /* ── SUCCESS STATE ── */
