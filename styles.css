@@ -1157,3 +1157,25 @@ footer {
 .sku-check-item:hover { border-color: var(--teal); }
 .sku-check-item input { cursor: pointer; accent-color: var(--teal); }
 
+/* ── VOLUME SLIDER IN TIER TABLE ── */
+.tier-gp-cell { display: flex; flex-direction: column; gap: 5px; min-width: 90px; }
+.tier-gp-val { font-family: var(--font-mono); font-size: 13px; color: var(--teal); font-weight: 600; }
+.vol-slider {
+  width: 100%;
+  -webkit-appearance: none; appearance: none;
+  background: var(--border); height: 3px;
+  border-radius: 3px; outline: none; cursor: pointer;
+}
+.vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--teal); cursor: pointer;
+  border: 2px solid var(--dark-2);
+  box-shadow: 0 0 6px rgba(11,168,150,0.5);
+}
+.vol-slider::-moz-range-thumb {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--teal); cursor: pointer; border: none;
+}
+.vol-slider-val { font-size: 10px; color: var(--muted); font-family: var(--font-mono); }
+

@@ -490,11 +490,20 @@
 // ── MARGIN CALCULATOR ──
 let currentPrice = 3.00;
 let currentRefKg = 40;
-function selectTierRow(row, price, refKg) {
+function selectTierRow(row, price) {
   document.querySelectorAll('.tier-row').forEach(r => r.classList.remove('active'));
   row.classList.add('active');
   currentPrice = price;
-  currentRefKg = refKg;
+  const slider = row.querySelector('.vol-slider');
+  currentRefKg = slider ? parseFloat(slider.value) : 40;
+  calcMargin();
+}
+function updateTierGP(slider, i, price) {
+  const refKg = parseFloat(slider.value);
+  const volEl = document.getElementById(`svol-${i}`);
+  if (volEl) volEl.textContent = refKg + ' kg/mo';
+  const row = slider.closest('.tier-row');
+  if (row && row.classList.contains('active')) currentRefKg = refKg;
   calcMargin();
 }
 function fmtNum(n) { return parseFloat(n.toFixed(2)).toString(); }
@@ -511,6 +520,17 @@ function calcMargin() {
   document.getElementById('res-margin').textContent = `${margin}%`;
   document.querySelector('.calc-result-big-sub').textContent =
     `At AUD ${currentPrice.toFixed(2)}/g wholesale · AUD ${rsp.toFixed(2)} RSP`;
+  document.querySelectorAll('.vol-slider').forEach(sl => {
+    const m = sl.id.match(/slider-(\d+)/);
+    if (!m) return;
+    const idx = parseInt(m[1]);
+    const rowPrice = parseFloat(sl.closest('.tier-row').dataset.price);
+    const g = rsp - rowPrice * jarSize;
+    const refKg = parseFloat(sl.value);
+    const mgp = Math.round(g * refKg * 1000 / jarSize);
+    const gpEl = document.getElementById(`sgp-${idx}`);
+    if (gpEl) gpEl.textContent = refKg > 0 ? '~' + Math.round(mgp / 1000) + 'K' : '—';
+  });
 }
 
 // ── FILTER ──
@@ -704,6 +724,13 @@ function fetchSheet(sheetName) {
   });
 }
 
+const SLIDER_RANGES = [
+  { min: 80, max: 120, def: 80 },
+  { min: 40, max: 80,  def: 40 },
+  { min: 40, max: 80,  def: 40 },
+  { min: 0,  max: 40,  def: 20 },
+];
+
 async function loadPricingTiers() {
   try {
     const tiers = await fetchSheet('Pricing_Tiers');
@@ -711,24 +738,35 @@ async function loadPricingTiers() {
     const tbody = document.querySelector('#pricing-table tbody');
     tbody.innerHTML = tiers.map((t, i) => {
       const price = parseFloat(t.price_per_g);
-      const refKg = parseFloat(t.ref_kg) || 40;
+      const range = SLIDER_RANGES[i] || { min: 0, max: 80, def: 40 };
+      const sliderVal = range.def;
       const gp = 99 - price * 15;
       const margin = ((gp / 99) * 100).toFixed(1);
       const barW = Math.round(parseFloat(margin) * 0.9);
-      const monthlyK = Math.round(gp * refKg * 1000 / 15 / 1000);
+      const monthlyK = Math.round(gp * sliderVal * 1000 / 15 / 1000);
       const isActive = i === 1 ? 'active' : '';
       return `
-        <tr class="tier-row ${isActive}" onclick="selectTierRow(this,${price},${refKg})" data-price="${price}" data-vol="${refKg}">
+        <tr class="tier-row ${isActive}" onclick="selectTierRow(this,${price})" data-price="${price}">
           <td><div class="tier-name">${t.tier_name}</div><div class="tier-vol">${t.volume_profile}</div></td>
           <td><span class="price-chip">${price.toFixed(2)}</span></td>
           <td><div class="margin-bar-wrap"><div class="margin-bar" style="width:${barW}px"></div><span class="margin-val">${margin}%</span></div></td>
-          <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--teal)">~${monthlyK}K</span></td>
+          <td>
+            <div class="tier-gp-cell">
+              <div class="tier-gp-val" id="sgp-${i}">~${monthlyK}K</div>
+              <input type="range" class="vol-slider" id="slider-${i}"
+                     min="${range.min}" max="${range.max}" step="10" value="${sliderVal}"
+                     onclick="event.stopPropagation()"
+                     oninput="updateTierGP(this,${i},${price})">
+              <div class="vol-slider-val" id="svol-${i}">${sliderVal} kg/mo</div>
+            </div>
+          </td>
         </tr>`;
     }).join('');
     const active = tbody.querySelector('.tier-row.active');
     if (active) {
       currentPrice = parseFloat(active.dataset.price);
-      currentRefKg = parseFloat(active.dataset.vol);
+      const slider = active.querySelector('.vol-slider');
+      currentRefKg = slider ? parseFloat(slider.value) : 40;
       calcMargin();
     }
   } catch(e) { console.warn('Could not load pricing tiers:', e); }
