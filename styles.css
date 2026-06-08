@@ -1119,15 +1119,22 @@ footer {
   position: fixed; bottom: 32px; right: 32px;
   background: var(--grad);
   color: var(--dark);
-  border: none; border-radius: 50%;
+  border: none; border-radius: 50px;
   width: 52px; height: 52px;
-  font-size: 28px; font-weight: 300; line-height: 1;
   cursor: pointer; z-index: 500;
   box-shadow: 0 4px 20px rgba(11,168,150,0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: width 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s;
   display: flex; align-items: center; justify-content: center;
+  overflow: hidden; white-space: nowrap; padding: 0;
 }
-.log-visit-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(11,168,150,0.5); }
+.log-visit-fab:hover { width: 150px; box-shadow: 0 8px 28px rgba(11,168,150,0.5); }
+.fab-icon { font-size: 26px; font-weight: 300; line-height: 1; flex-shrink: 0; }
+.fab-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  max-width: 0; overflow: hidden; opacity: 0; margin-left: 0;
+  transition: max-width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s 0.1s, margin 0.35s;
+}
+.log-visit-fab:hover .fab-label { max-width: 80px; opacity: 1; margin-left: 8px; }
 
 /* ── LOG VISIT MODAL ── */
 .log-modal {
@@ -1188,4 +1195,29 @@ footer {
   background: var(--teal); cursor: pointer; border: none;
 }
 .vol-slider-val { font-size: 10px; color: var(--muted); font-family: var(--font-mono); }
+
+/* ── SCROLL ANIMATIONS ── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@supports (animation-timeline: view()) {
+  .sku-card, .diff-card, .bundle-item, .comp-card,
+  .chain-step, .faq-item, .tier-row {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0px entry 180px;
+  }
+  .section-title, .section-label, .section-sub, .divider {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0px entry 140px;
+  }
+  .calc-box, .tier-table-wrap, .bundle-wrap, .objection-table {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0px entry 160px;
+  }
+}
 
