@@ -464,14 +464,10 @@
       </div>
       <div class="log-field" style="margin-top:16px;">
         <label class="form-label">Interested SKUs</label>
-        <div class="sku-check-grid">
-          <label class="sku-check-item"><input type="checkbox" class="sku-check" value="Trop Cherry BX1"> Trop Cherry BX1</label>
-          <label class="sku-check-item"><input type="checkbox" class="sku-check" value="Runtz Mints"> Runtz Mints</label>
-          <label class="sku-check-item"><input type="checkbox" class="sku-check" value="Maui Wowie 2.0"> Maui Wowie 2.0</label>
-          <label class="sku-check-item"><input type="checkbox" class="sku-check" value="Prizefighter"> Prizefighter</label>
-          <label class="sku-check-item"><input type="checkbox" class="sku-check" value="Da Funk"> Da Funk</label>
-          <label class="sku-check-item"><input type="checkbox" class="sku-check" value="Tropical Blues"> Tropical Blues</label>
+        <div class="sku-check-grid" id="sku-check-container">
+          <div style="color:var(--muted);font-size:12px;grid-column:1/-1;">Loading SKUs…</div>
         </div>
+        <div id="sku-limit-msg" style="display:none;font-size:11px;color:var(--amber);margin-top:6px;">Max 3 SKUs selected</div>
       </div>
       <div class="log-field" style="margin-top:16px;">
         <label class="form-label">Notes</label>
@@ -821,7 +817,8 @@ async function submitLog(e) {
       body: JSON.stringify(data),
     });
     form.reset();
-    document.querySelectorAll('.sku-check').forEach(c => c.checked = false);
+    document.querySelectorAll('.sku-check').forEach(c => { c.checked = false; c.disabled = false; });
+    document.getElementById('sku-limit-msg').style.display = 'none';
     btn.textContent = 'Saved ✓';
     setTimeout(() => { closeLogModal(); btn.textContent = 'Save Visit'; btn.disabled = false; }, 1500);
   } catch(err) {
@@ -830,9 +827,43 @@ async function submitLog(e) {
   }
 }
 
+async function loadSKUs() {
+  const container = document.getElementById('sku-check-container');
+  if (!container) return;
+  let names = [];
+  try {
+    const skus = await fetchSheet('SKUs');
+    if (skus && !skus.error && skus.length) {
+      names = skus.map(s => s.name).filter(Boolean);
+    }
+  } catch(e) {}
+  if (!names.length) {
+    names = ['Trop Cherry BX1','Runtz Mints','Maui Wowie 2.0','Prizefighter','Da Funk','Tropical Blues'];
+  }
+  container.innerHTML = names.map(n => `
+    <label class="sku-check-item">
+      <input type="checkbox" class="sku-check" value="${n}" onchange="enforceSkuLimit()">
+      ${n}
+    </label>`).join('');
+}
+
+function enforceSkuLimit() {
+  const all = document.querySelectorAll('.sku-check');
+  const checked = [...all].filter(c => c.checked);
+  const msg = document.getElementById('sku-limit-msg');
+  if (checked.length >= 3) {
+    all.forEach(c => { if (!c.checked) c.disabled = true; });
+    if (msg) msg.style.display = 'block';
+  } else {
+    all.forEach(c => c.disabled = false);
+    if (msg) msg.style.display = 'none';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadPricingTiers();
   loadBundle();
+  loadSKUs();
 });
 
 // ── MORE NAV DROPDOWN ──
