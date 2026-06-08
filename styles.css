@@ -967,6 +967,16 @@ footer {
   .sku-grid { grid-template-columns: 1fr; }
   .coa-grid { grid-template-columns: 1fr; }
   .vol-select { grid-template-columns: repeat(2,1fr); }
+  .tier-table th { padding: 10px 6px; font-size: 8px; }
+  .tier-table td { padding: 10px 6px; }
+  .tier-name { font-size: 11px; }
+  .tier-vol { font-size: 9px; }
+  .price-chip { font-size: 13px; }
+  .margin-bar { display: none; }
+  .margin-val { font-size: 11px; }
+  .tier-gp-cell { min-width: 60px; gap: 3px; }
+  .tier-gp-val { font-size: 11px; }
+  .vol-slider-val { font-size: 9px; }
 }
 
 /* ── SUCCESS STATE ── */
@@ -1109,13 +1119,13 @@ footer {
   position: fixed; bottom: 32px; right: 32px;
   background: var(--grad);
   color: var(--dark);
-  border: none; border-radius: 50px;
-  padding: 14px 26px;
-  font-size: 12px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; border-radius: 50%;
+  width: 52px; height: 52px;
+  font-size: 28px; font-weight: 300; line-height: 1;
   cursor: pointer; z-index: 500;
   box-shadow: 0 4px 20px rgba(11,168,150,0.4);
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; align-items: center; justify-content: center;
 }
 .log-visit-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(11,168,150,0.5); }
 
