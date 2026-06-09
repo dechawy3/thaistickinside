@@ -70,7 +70,7 @@
           <input class="gi-input" type="number" id="gi-rsp" value="99.00" min="0" step="0.01" oninput="calcPricing()">
         </div>
         <div class="gi-field">
-          <div class="gi-label">Doctor / Clinic Incentive</div>
+          <div class="gi-label">Doctor/Clinic</div>
           <input class="gi-input" type="number" id="gi-doctor" value="30.00" min="0" step="0.01" oninput="calcPricing()">
         </div>
         <div class="gi-field">
@@ -82,9 +82,9 @@
 
     <!-- Pricing Schedule Table -->
     <div class="ps-wrap">
-      <div class="ps-section-title">Product Pricing Schedule — Direct to Clinic / Pharmacy</div>
-      <div class="ps-table-scroll">
-        <table class="ps-table">
+      <div class="ps-outer-scroll">
+        <div class="ps-section-title">Product Pricing Schedule — Direct to Clinic / Pharmacy</div>
+        <table class="ps-table" style="border-bottom: 1px solid var(--border);">
           <thead>
             <tr>
               <th>Tier</th>
@@ -99,8 +99,6 @@
           </thead>
           <tbody id="ps-jar-body"></tbody>
         </table>
-      </div>
-      <div class="ps-table-scroll" style="margin-top:2px;">
         <table class="ps-table">
           <thead>
             <tr>
@@ -116,31 +114,6 @@
           </thead>
           <tbody id="ps-carton-body"></tbody>
         </table>
-      </div>
-    </div>
-
-    <!-- Monthly GP Calculator -->
-    <div class="gp-calc-box">
-      <div class="gp-calc-title">Monthly GP Estimate</div>
-      <div class="gp-calc-inner">
-        <div class="gp-slider-group">
-          <div class="gp-slider-label">Jars / month: <span id="gp-slider-val">100 jars/mo</span></div>
-          <input type="range" class="vol-slider" id="gp-slider" min="0" max="1000" step="10" value="100" oninput="calcMonthlyGP()">
-        </div>
-        <div class="gp-results">
-          <div class="gp-result-item">
-            <div class="gp-result-label">GP / jar</div>
-            <div class="gp-result-val" id="gp-per-jar">AUD 30.00</div>
-          </div>
-          <div class="gp-result-item">
-            <div class="gp-result-label">Monthly GP</div>
-            <div class="gp-result-big" id="gp-monthly">AUD 3,000</div>
-          </div>
-          <div class="gp-result-item">
-            <div class="gp-result-label">Margin on RSP</div>
-            <div class="gp-result-val" id="gp-margin">30.3%</div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -536,19 +509,6 @@ function calcPricing() {
       <td>${f(doctor * carton)}</td>
       <td class="ps-rsp">${f(rspCarton)}</td>
     </tr>`;
-  calcMonthlyGP();
-}
-
-function calcMonthlyGP() {
-  const pharma = parseFloat(document.getElementById('gi-pharma').value) || 0;
-  const rsp    = parseFloat(document.getElementById('gi-rsp').value) || 0;
-  const jars   = parseInt(document.getElementById('gp-slider').value) || 0;
-  const monthly = pharma * jars;
-  const pct = rsp > 0 ? ((pharma / rsp) * 100).toFixed(1) : '0.0';
-  document.getElementById('gp-slider-val').textContent = jars + ' jars/mo';
-  document.getElementById('gp-monthly').textContent = 'AUD ' + monthly.toLocaleString('en-US', { minimumFractionDigits: 0 });
-  document.getElementById('gp-per-jar').textContent = 'AUD ' + pharma.toFixed(2);
-  document.getElementById('gp-margin').textContent = pct + '%';
 }
 
 // ── FILTER ──

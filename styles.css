@@ -1251,19 +1251,20 @@ footer {
 }
 .gi-input:focus { border-color: var(--teal); }
 .ps-wrap { margin-bottom: 24px; }
+.ps-outer-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
 .ps-section-title {
   font-size: 11px; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--light-2); padding: 14px 20px;
   background: var(--dark-3);
-  border: 1px solid var(--border);
-  border-radius: 6px 6px 0 0; text-align: center;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  white-space: nowrap;
 }
-.ps-table-scroll {
-  overflow-x: auto;
-  border: 1px solid var(--border); border-top: none;
-}
-.ps-table-scroll:last-child { border-radius: 0 0 6px 6px; }
 .ps-table {
   width: 100%; border-collapse: collapse; min-width: 800px;
 }
