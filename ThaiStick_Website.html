@@ -20,7 +20,14 @@
   </a>
   <ul class="nav-links">
     <li><a href="#why">Why Us</a></li>
-    <li><a href="products.html">Products &amp; Pricing</a></li>
+    <li class="nav-tier-pick">
+      <button class="nav-links-btn" onclick="toggleTierNav()">Product Tier &amp; Pricing</button>
+      <div class="nav-tier-menu" id="nav-tier-menu">
+        <a href="products.html?tier=value">Value Tier</a>
+        <a href="products.html?tier=premium">Premium Tier</a>
+      </div>
+    </li>
+    <li><a href="portfolio.html">Explore Products</a></li>
     <li class="nav-more">
       <button class="nav-more-btn" onclick="toggleMoreNav()" aria-label="More pages">
         <span></span><span></span><span></span>
@@ -58,8 +65,14 @@
           <span class="cred-pill">6 SKUs · 4 Indications</span>
         </div>
         <div class="hero-actions">
-          <a href="products.html" class="btn-primary">View Products &amp; Pricing →</a>
-          <a href="products.html#products" class="btn-secondary">Explore Products →</a>
+          <div class="tier-picker-wrap">
+            <button class="btn-primary" onclick="showTierPicker()">View Products &amp; Pricing →</button>
+            <div class="tier-picker" id="hero-tier-picker" style="display:none;">
+              <a href="products.html?tier=value" class="tier-pick-btn">Value Tier</a>
+              <a href="products.html?tier=premium" class="tier-pick-btn">Premium Tier</a>
+            </div>
+          </div>
+          <a href="portfolio.html" class="btn-secondary">Explore Products →</a>
         </div>
       </div>
     </div>
@@ -187,6 +200,13 @@ window.addEventListener('scroll', () => {
     nav.style.background = 'rgba(10,14,20,0.85)';
   }
 });
+function showTierPicker() {
+  const p = document.getElementById('hero-tier-picker');
+  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+}
+function toggleTierNav() {
+  document.getElementById('nav-tier-menu').classList.toggle('open');
+}
 // ── MORE NAV DROPDOWN ──
 function toggleMoreNav() {
   document.getElementById('nav-more-menu').classList.toggle('open');
@@ -195,6 +215,14 @@ document.addEventListener('click', function(e) {
   if (!e.target.closest('.nav-more')) {
     const m = document.getElementById('nav-more-menu');
     if (m) m.classList.remove('open');
+  }
+  if (!e.target.closest('.nav-tier-pick')) {
+    const t = document.getElementById('nav-tier-menu');
+    if (t) t.classList.remove('open');
+  }
+  if (!e.target.closest('.tier-picker-wrap')) {
+    const p = document.getElementById('hero-tier-picker');
+    if (p) p.style.display = 'none';
   }
 });
 </script>

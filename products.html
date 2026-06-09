@@ -17,7 +17,14 @@
   </a>
   <ul class="nav-links">
     <li><a href="ThaiStick_Website.html#why">Why Us</a></li>
-    <li><a href="products.html">Products &amp; Pricing</a></li>
+    <li class="nav-tier-pick">
+      <button class="nav-links-btn" onclick="toggleTierNav()">Product Tier &amp; Pricing</button>
+      <div class="nav-tier-menu" id="nav-tier-menu">
+        <a href="products.html?tier=value">Value Tier</a>
+        <a href="products.html?tier=premium">Premium Tier</a>
+      </div>
+    </li>
+    <li><a href="portfolio.html">Explore Products</a></li>
     <li class="nav-more">
       <button class="nav-more-btn" onclick="toggleMoreNav()" aria-label="More pages">
         <span></span><span></span><span></span>
@@ -120,238 +127,6 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════
-     PRODUCT CATALOGUE
-══════════════════════════════ -->
-<section id="products" style="padding: 80px 0 120px; background: var(--dark-2);">
-  <div class="container">
-    <div class="section-label">Portfolio Overview</div>
-    <h2 class="section-title">Six Strains. <span class="grad-text">Every Indication.</span></h2>
-    <p class="section-sub">TGO93-released, GMP-certified medical cannabis flower — matched to the four highest-volume clinical indications in the Australian market.</p>
-    <div class="divider"></div>
-
-    <div class="filter-bar" style="margin-top:24px;">
-      <button class="filter-btn active" onclick="filterSKU('all', this)">All Products</button>
-      <button class="filter-btn" onclick="filterSKU('sleep', this)">Sleep Disorders</button>
-      <button class="filter-btn" onclick="filterSKU('pain', this)">Pain Management</button>
-      <button class="filter-btn" onclick="filterSKU('anxiety', this)">Anxiety / Migraine</button>
-      <button class="filter-btn" onclick="filterSKU('depression', this)">Mental Health / Neuro</button>
-    </div>
-
-    <div class="sku-grid">
-
-      <!-- TROP CHERRY BX1 -->
-      <div class="sku-card" data-ind="sleep">
-        <div class="sku-top-row">
-          <span class="sku-ind ind-sleep">Sleep Disorders</span>
-          <span class="sku-morph">Hybrid</span>
-        </div>
-        <div class="sku-name">Trop Cherry BX1</div>
-        <div class="thc-wrap">
-          <div class="thc-label">THC / CBD</div>
-          <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:55%"></div></div>
-          <div class="thc-row">
-            <span class="thc-val">16.59%</span>
-            <span class="cbd-val">CBD 0.77%</span>
-          </div>
-        </div>
-        <div class="sku-med-cats">
-          <span class="med-tag med-sleep">Sleep Disorders</span>
-          <span class="med-tag med-mental">Mental Health</span>
-        </div>
-        <div class="sku-best-pos">
-          <div class="best-pos-label">Best Medical Positions</div>
-          <div class="best-pos-item"><span class="pos-num">1.</span> Sleep Disorder <span class="pos-score">0.42</span></div>
-          <div class="best-pos-item"><span class="pos-num">2.</span> Migraine <span class="pos-score">0.35</span></div>
-          <div class="best-pos-item"><span class="pos-num">3.</span> Chronic / Cancer Pain <span class="pos-score">0.34</span></div>
-        </div>
-        <button class="btn-detail" onclick="openModal('trop')">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-          View Full Detail
-        </button>
-      </div>
-
-      <!-- RUNTZ MINTS -->
-      <div class="sku-card" data-ind="pain">
-        <div class="sku-top-row">
-          <span class="sku-ind ind-pain">Pain Management</span>
-          <span class="sku-morph">Hybrid</span>
-        </div>
-        <div class="sku-name">Runtz Mints</div>
-        <div class="thc-wrap">
-          <div class="thc-label">THC / CBD</div>
-          <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:65%"></div></div>
-          <div class="thc-row">
-            <span class="thc-val">19.57%</span>
-            <span class="cbd-val">CBD 0.82%</span>
-          </div>
-        </div>
-        <div class="sku-med-cats">
-          <span class="med-tag med-pain">Pain Management</span>
-          <span class="med-tag med-mental">Mental Health</span>
-        </div>
-        <div class="sku-best-pos">
-          <div class="best-pos-label">Best Medical Positions</div>
-          <div class="best-pos-item"><span class="pos-num">1.</span> Chronic / Cancer Pain <span class="pos-score">0.45</span></div>
-          <div class="best-pos-item"><span class="pos-num">2.</span> Migraine <span class="pos-score">0.39</span></div>
-          <div class="best-pos-item"><span class="pos-num">3.</span> PTSD <span class="pos-score">0.37</span></div>
-        </div>
-        <button class="btn-detail" onclick="openModal('runtz')">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-          View Full Detail
-        </button>
-      </div>
-
-      <!-- MAUI WOWIE 2.0 -->
-      <div class="sku-card" data-ind="pain">
-        <div class="sku-top-row">
-          <span class="sku-ind ind-pain">Pain Management</span>
-          <span class="sku-morph">Sativa Dominant</span>
-        </div>
-        <div class="sku-name">Maui Wowie 2.0</div>
-        <div class="thc-wrap">
-          <div class="thc-label">THC / CBD</div>
-          <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:63%"></div></div>
-          <div class="thc-row">
-            <span class="thc-val">19.12%</span>
-            <span class="cbd-val">CBD 0.77%</span>
-          </div>
-        </div>
-        <div class="sku-med-cats">
-          <span class="med-tag med-pain">Pain Management</span>
-          <span class="med-tag med-mental">Mental Health</span>
-        </div>
-        <div class="sku-best-pos">
-          <div class="best-pos-label">Best Medical Positions</div>
-          <div class="best-pos-item"><span class="pos-num">1.</span> Chronic / Cancer Pain <span class="pos-score">0.71</span></div>
-          <div class="best-pos-item"><span class="pos-num">2.</span> Migraine <span class="pos-score">0.59</span></div>
-          <div class="best-pos-item"><span class="pos-num">3.</span> Neuropathic Pain <span class="pos-score">0.47</span></div>
-        </div>
-        <button class="btn-detail" onclick="openModal('maui')">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-          View Full Detail
-        </button>
-      </div>
-
-      <!-- TROPICAL BLUES -->
-      <div class="sku-card" data-ind="pain">
-        <div class="sku-top-row">
-          <span class="sku-ind ind-pain">Pain Management</span>
-          <span class="sku-morph">Sativa Dominant</span>
-        </div>
-        <div class="sku-name">Tropical Blues</div>
-        <div class="thc-wrap">
-          <div class="thc-label">THC / CBD</div>
-          <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:90%"></div></div>
-          <div class="thc-row">
-            <span class="thc-val">27.23%</span>
-            <span class="cbd-val">CBD 0.20%</span>
-          </div>
-        </div>
-        <div class="sku-med-cats">
-          <span class="med-tag med-pain">Pain Management</span>
-          <span class="med-tag med-mental">Mental Health</span>
-        </div>
-        <div class="sku-best-pos">
-          <div class="best-pos-label">Best Medical Positions</div>
-          <div class="best-pos-item"><span class="pos-num">1.</span> Chronic / Cancer Pain <span class="pos-score">0.40</span></div>
-          <div class="best-pos-item"><span class="pos-num">2.</span> Migraine <span class="pos-score">0.39</span></div>
-          <div class="best-pos-item"><span class="pos-num">3.</span> PTSD <span class="pos-score">0.34</span></div>
-        </div>
-        <button class="btn-detail" onclick="openModal('tropical')">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-          View Full Detail
-        </button>
-      </div>
-
-      <!-- PRIZEFIGHTER -->
-      <div class="sku-card" data-ind="anxiety">
-        <div class="sku-top-row">
-          <span class="sku-ind ind-anxiety">Pain Management</span>
-          <span class="sku-morph">Indica Dominant</span>
-        </div>
-        <div class="sku-name">Prizefighter</div>
-        <div class="thc-wrap">
-          <div class="thc-label">THC / CBD</div>
-          <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:65%"></div></div>
-          <div class="thc-row">
-            <span class="thc-val">19.61%</span>
-            <span class="cbd-val">CBD 0.83%</span>
-          </div>
-        </div>
-        <div class="sku-med-cats">
-          <span class="med-tag med-pain">Pain Management</span>
-          <span class="med-tag med-mental">Mental Health</span>
-        </div>
-        <div class="sku-best-pos">
-          <div class="best-pos-label">Best Medical Positions</div>
-          <div class="best-pos-item"><span class="pos-num">1.</span> Migraine <span class="pos-score">0.66</span></div>
-          <div class="best-pos-item"><span class="pos-num">2.</span> Anxiety <span class="pos-score">0.64</span></div>
-          <div class="best-pos-item"><span class="pos-num">3.</span> Chronic / Cancer Pain <span class="pos-score">0.63</span></div>
-        </div>
-        <button class="btn-detail" onclick="openModal('prize')">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-          View Full Detail
-        </button>
-      </div>
-
-      <!-- DA FUNK -->
-      <div class="sku-card" data-ind="depression">
-        <div class="sku-top-row">
-          <span class="sku-ind ind-depression">Mental Health</span>
-          <span class="sku-morph">Indica Dominant</span>
-        </div>
-        <div class="sku-name">Da Funk</div>
-        <div class="thc-wrap">
-          <div class="thc-label">THC / CBD</div>
-          <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:70%"></div></div>
-          <div class="thc-row">
-            <span class="thc-val">21.20%</span>
-            <span class="cbd-val">CBD 0.22%</span>
-          </div>
-        </div>
-        <div class="sku-med-cats">
-          <span class="med-tag med-mental">Mental Health</span>
-          <span class="med-tag med-neuro">Neurological Disorders</span>
-        </div>
-        <div class="sku-best-pos">
-          <div class="best-pos-label">Best Medical Positions</div>
-          <div class="best-pos-item"><span class="pos-num">1.</span> Depression <span class="pos-score">0.36</span></div>
-          <div class="best-pos-item"><span class="pos-num">2.</span> ADHD <span class="pos-score">0.30</span></div>
-          <div class="best-pos-item"><span class="pos-num">3.</span> Anxiety <span class="pos-score">0.22</span></div>
-        </div>
-        <button class="btn-detail" onclick="openModal('dafunk')">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-          View Full Detail
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Bundle -->
-    <div class="bundle-wrap">
-      <div class="bundle-title">Recommended Opening Bundle</div>
-      <div class="bundle-sub">Three SKUs covering the highest-value indications in the Australian medical cannabis market — a clinically defensible formulary from day one.</div>
-      <div class="bundle-items">
-        <div class="bundle-item">
-          <div class="bundle-ind">Pain Management</div>
-          <div class="bundle-sku-name">Tropical Blues</div>
-          <div class="bundle-thc">27.23% THC · 0.20% CBD · Sativa Dominant</div>
-        </div>
-        <div class="bundle-item">
-          <div class="bundle-ind">Anxiety / Migraine</div>
-          <div class="bundle-sku-name">Prizefighter</div>
-          <div class="bundle-thc">19.61% THC · 0.83% CBD · Hybrid</div>
-        </div>
-        <div class="bundle-item">
-          <div class="bundle-ind">Mental Health</div>
-          <div class="bundle-sku-name">Da Funk</div>
-          <div class="bundle-thc">21.20% THC · 0.22% CBD · Indica Dominant</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -371,11 +146,6 @@
     </div>
   </div>
 </footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal" id="modal-content"></div>
-</div>
 
 <!-- LOG VISIT BUTTON -->
 <button class="log-visit-fab" onclick="openLogModal()">
@@ -511,20 +281,6 @@ function calcPricing() {
     </tr>`;
 }
 
-// ── FILTER ──
-function filterSKU(ind, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.sku-card').forEach(card => {
-    if (ind === 'all' || card.dataset.ind === ind) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-}
-
-// ── MODAL DATA ──
 const skuData = {
   trop: {
     name: 'Trop Cherry BX1', ind: 'Sleep', indClass: 'ind-sleep',
@@ -618,67 +374,6 @@ const skuData = {
   },
 };
 
-function openModal(id) {
-  const d = skuData[id];
-  const html = `
-    <div class="modal-header">
-      <div>
-        <div class="modal-ind"><span class="sku-ind ${d.indClass}">${d.ind}</span></div>
-        <div class="modal-name">${d.name}</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section">
-        <div class="modal-section-title">Potency Profile</div>
-        <div class="modal-potency">
-          <div class="potency-item">
-            <div class="potency-label">THC</div>
-            <div class="potency-val">${d.thc}</div>
-          </div>
-          <div class="potency-item">
-            <div class="potency-label">CBD</div>
-            <div class="potency-val">${d.cbd}</div>
-          </div>
-        </div>
-        <div class="thc-bar-bg" style="margin-top:8px;"><div class="thc-bar-fill" style="width:${parseFloat(d.thc)/30*100}%"></div></div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Terpene Profile</div>
-        <div class="terpene-list">
-          ${d.terpenes.map(t => `<div class="terpene-row"><span class="terpene-name">${t.name}</span><span class="terpene-effect">${t.effect}</span></div>`).join('')}
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Clinical Indication Breakdown</div>
-        <div class="indication-list">
-          ${d.indications.map(i => `<div class="indication-item"><strong>${i.primary}</strong>${i.detail}</div>`).join('')}
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">COA Summary — TGO93 Release</div>
-        <div class="coa-grid">
-          ${d.coa.map(c => `<div class="coa-item"><div class="coa-pass"></div><span class="coa-label">${c}</span></div>`).join('')}
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Recommended Patient Profile</div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7;">${d.patient}</p>
-      </div>
-    </div>
-  `;
-  document.getElementById('modal-content').innerHTML = html;
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
-
 // ── NAV SCROLL ──
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
@@ -702,20 +397,6 @@ function fetchSheet(sheetName) {
   });
 }
 
-async function loadBundle() {
-  try {
-    const items = await fetchSheet('Bundle');
-    if (!items || items.error) return;
-    const wrap = document.querySelector('.bundle-items');
-    if (!wrap) return;
-    wrap.innerHTML = items.map(item => `
-      <div class="bundle-item">
-        <div class="bundle-ind">${item.indication}</div>
-        <div class="bundle-sku-name">${item.name}</div>
-        <div class="bundle-thc">${parseFloat(item.thc).toFixed(2)}% THC · ${parseFloat(item.cbd).toFixed(2)}% CBD · ${item.morphology}</div>
-      </div>`).join('');
-  } catch(e) { console.warn('Could not load bundle:', e); }
-}
 
 function openLogModal() {
   document.getElementById('log-overlay').classList.add('open');
@@ -798,114 +479,21 @@ function enforceSkuLimit() {
   }
 }
 
-async function loadPortfolio() {
-  try {
-    const items = await fetchSheet('Portfolio');
-    if (!items || items.error || !items.length) return;
-    portfolioData = items;
-    const grid = document.querySelector('.sku-grid');
-    if (!grid) return;
-    grid.innerHTML = items.map((p, i) => {
-      const thc = parseFloat(p.thc).toFixed(2);
-      const cbd = parseFloat(p.cbd).toFixed(2);
-      const barW = Math.round(parseFloat(p.thc) / 30 * 100);
-      const tags = p.med_tags ? p.med_tags.split(';').map(t => {
-        const v = t.trim();
-        const cls = v.toLowerCase().includes('sleep') ? 'med-sleep'
-                  : v.toLowerCase().includes('pain') ? 'med-pain'
-                  : v.toLowerCase().includes('neuro') ? 'med-neuro' : 'med-mental';
-        return `<span class="med-tag ${cls}">${v}</span>`;
-      }).join('') : '';
-      return `
-        <div class="sku-card" data-ind="${p.filter_ind}">
-          <div class="sku-top-row">
-            <span class="sku-ind ${p.ind_class}">${p.indication}</span>
-            <span class="sku-morph">${p.morphology}</span>
-          </div>
-          <div class="sku-name">${p.name}</div>
-          <div class="thc-wrap">
-            <div class="thc-label">THC / CBD</div>
-            <div class="thc-bar-bg"><div class="thc-bar-fill" style="width:${barW}%"></div></div>
-            <div class="thc-row">
-              <span class="thc-val">${thc}%</span>
-              <span class="cbd-val">CBD ${cbd}%</span>
-            </div>
-          </div>
-          <div class="sku-med-cats">${tags}</div>
-          <div class="sku-best-pos">
-            <div class="best-pos-label">Best Medical Positions</div>
-            <div class="best-pos-item"><span class="pos-num">1.</span> ${p.pos1_name} <span class="pos-score">${p.pos1_score}</span></div>
-            <div class="best-pos-item"><span class="pos-num">2.</span> ${p.pos2_name} <span class="pos-score">${p.pos2_score}</span></div>
-            <div class="best-pos-item"><span class="pos-num">3.</span> ${p.pos3_name} <span class="pos-score">${p.pos3_score}</span></div>
-          </div>
-          <button class="btn-detail" onclick="openModalFromPortfolio(${i})">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="4" y1="6" x2="8" y2="6"/></svg>
-            View Full Detail
-          </button>
-        </div>`;
-    }).join('');
-  } catch(e) { console.warn('Could not load portfolio:', e); }
-}
-
-function openModalFromPortfolio(idx) {
-  const p = portfolioData[idx];
-  if (!p) return;
-  const thc = parseFloat(p.thc).toFixed(2);
-  const cbd = parseFloat(p.cbd).toFixed(2);
-  const barW = Math.round(parseFloat(p.thc) / 30 * 100);
-  const coa = ['Potency — PASS','Microbiology — PASS','Pesticides — PASS','Heavy Metals — PASS','Residual Solvents — PASS','Irradiation — Confirmed'];
-  document.getElementById('modal-content').innerHTML = `
-    <div class="modal-header">
-      <div>
-        <div class="modal-ind"><span class="sku-ind ${p.ind_class}">${p.indication}</span></div>
-        <div class="modal-name">${p.name}</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section">
-        <div class="modal-section-title">Potency Profile</div>
-        <div class="modal-potency">
-          <div class="potency-item"><div class="potency-label">THC</div><div class="potency-val">${thc}%</div></div>
-          <div class="potency-item"><div class="potency-label">CBD</div><div class="potency-val">${cbd}%</div></div>
-        </div>
-        <div class="thc-bar-bg" style="margin-top:8px;"><div class="thc-bar-fill" style="width:${barW}%"></div></div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Terpene Profile</div>
-        <div class="terpene-list">
-          <div class="terpene-row"><span class="terpene-name">${p.terpene1_name}</span><span class="terpene-effect">${p.terpene1_effect}</span></div>
-          <div class="terpene-row"><span class="terpene-name">${p.terpene2_name}</span><span class="terpene-effect">${p.terpene2_effect}</span></div>
-          <div class="terpene-row"><span class="terpene-name">${p.terpene3_name}</span><span class="terpene-effect">${p.terpene3_effect}</span></div>
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Clinical Indication Breakdown</div>
-        <div class="indication-list">
-          <div class="indication-item"><strong>${p.indication1_primary}</strong>${p.indication1_detail}</div>
-          <div class="indication-item"><strong>${p.indication2_primary}</strong>${p.indication2_detail}</div>
-        </div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">COA Summary — TGO93 Release</div>
-        <div class="coa-grid">${coa.map(c => `<div class="coa-item"><div class="coa-pass"></div><span class="coa-label">${c}</span></div>`).join('')}</div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">Recommended Patient Profile</div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7;">${p.patient_profile}</p>
-      </div>
-    </div>`;
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
 
 document.addEventListener('DOMContentLoaded', () => {
-  calcPricing();
-  loadBundle();
+  const tier = new URLSearchParams(window.location.search).get('tier');
+  if (tier === 'premium') {
+    const btn = document.querySelector('.tier-tab:last-child');
+    if (btn) switchTier('premium', btn);
+  } else {
+    calcPricing();
+  }
   loadSKUs();
-  loadPortfolio();
 });
 
+function toggleTierNav() {
+  document.getElementById('nav-tier-menu').classList.toggle('open');
+}
 // ── MORE NAV DROPDOWN ──
 function toggleMoreNav() {
   document.getElementById('nav-more-menu').classList.toggle('open');
@@ -914,6 +502,10 @@ document.addEventListener('click', function(e) {
   if (!e.target.closest('.nav-more')) {
     const m = document.getElementById('nav-more-menu');
     if (m) m.classList.remove('open');
+  }
+  if (!e.target.closest('.nav-tier-pick')) {
+    const t = document.getElementById('nav-tier-menu');
+    if (t) t.classList.remove('open');
   }
 });
 </script>

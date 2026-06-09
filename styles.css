@@ -1196,6 +1196,53 @@ footer {
 }
 .vol-slider-val { font-size: 10px; color: var(--muted); font-family: var(--font-mono); }
 
+/* ── TIER PICKER (HOME + NAV) ── */
+.tier-picker-wrap { display: flex; flex-direction: column; gap: 0; }
+.tier-picker {
+  display: flex; gap: 8px; margin-top: 10px;
+}
+.tier-pick-btn {
+  flex: 1; text-align: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--dark-3);
+  border: 1px solid var(--teal);
+  color: var(--teal);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 12px 20px; border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.tier-pick-btn:hover { background: var(--teal-glow); color: var(--teal); }
+.nav-tier-pick { position: relative; display: flex; align-items: center; }
+.nav-links-btn {
+  background: none; border: none;
+  color: var(--light-2);
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; padding: 0;
+  transition: color 0.2s;
+  font-family: var(--font-body);
+}
+.nav-links-btn:hover { color: var(--teal); }
+.nav-tier-menu {
+  display: none; position: absolute;
+  top: calc(100% + 14px); left: 0;
+  background: rgba(10,14,20,0.98);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px;
+  min-width: 180px; z-index: 300;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.nav-tier-menu.open { display: block; }
+.nav-tier-menu a {
+  display: block; padding: 10px 16px;
+  color: var(--light); font-size: 13px;
+  text-decoration: none; border-radius: 4px;
+  transition: background 0.15s, color 0.15s; white-space: nowrap;
+}
+.nav-tier-menu a:hover { background: var(--dark-3); color: var(--teal); }
+
 /* ── PRICING SCHEDULE (NEW) ── */
 .tier-tabs {
   display: flex; gap: 0;
