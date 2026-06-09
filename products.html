@@ -39,116 +39,111 @@
 <section id="pricing" style="padding: 140px 0 120px; background: var(--dark);">
   <div class="container">
     <div class="section-label">Wholesale Pricing</div>
-    <h2 class="section-title">Your Margin. <span class="grad-text">Calculated Live.</span></h2>
-    <p class="section-sub">Enter your retail price and select your volume tier. See your gross profit and margin update in real time.</p>
+    <h2 class="section-title">Product Pricing Schedule. <span class="grad-text">Direct to Clinic / Pharmacy.</span></h2>
+    <p class="section-sub">Adjust any global input and all margins recalculate automatically. Confidential — internal use only.</p>
     <div class="divider"></div>
 
-    <div class="pricing-inner" style="margin-top:48px;">
-      <div class="calc-box">
-        <div class="calc-title">Margin Calculator</div>
-        <div class="calc-field">
-          <div class="calc-label">Your Retail Price (RSP)</div>
-          <input class="calc-input" type="number" id="rsp" value="99" min="50" max="200" oninput="calcMargin()">
-        </div>
-        <div class="calc-field">
-          <div class="calc-label">Jar size (grams)</div>
-          <input class="calc-input" type="number" id="jar-size" value="15" min="1" max="100" oninput="calcMargin()">
-        </div>
-        <div class="calc-divider"></div>
-        <div class="calc-results">
-          <div class="calc-result-row">
-            <span class="calc-result-label">Your cost per jar</span>
-            <span class="calc-result-val" id="res-cost">AUD 45.00</span>
-          </div>
-          <div class="calc-result-row">
-            <span class="calc-result-label">Gross profit per jar</span>
-            <span class="calc-result-val" id="res-gp">AUD 54.00</span>
-          </div>
-          <div class="calc-result-row">
-            <span class="calc-result-label">Monthly GP</span>
-            <span class="calc-result-val" id="res-monthly">AUD 144,000</span>
-          </div>
-        </div>
-        <div class="calc-result-big">
-          <div class="calc-result-big-label">Your Gross Margin on RSP</div>
-          <div class="calc-result-big-val" id="res-margin">54.5%</div>
-          <div class="calc-result-big-sub">At AUD 3.00/g wholesale · AUD 99.00 RSP</div>
-        </div>
-      </div>
+    <!-- Tier Tabs -->
+    <div class="tier-tabs" style="margin-top:40px;">
+      <button class="tier-tab active" onclick="switchTier('value',this)">Value Tier</button>
+      <button class="tier-tab" onclick="switchTier('premium',this)">Premium Tier</button>
+    </div>
 
-      <div>
-        <div class="tier-table-wrap">
-          <table class="tier-table" id="pricing-table">
-            <thead>
-              <tr>
-                <th>Supply Tier</th>
-                <th style="white-space:nowrap">Price / g</th>
-                <th>Your Margin</th>
-                <th>Monthly GP*</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="tier-row" onclick="selectTierRow(this, 2.80, 80)">
-                <td>
-                  <div class="tier-name">Strategic Partner</div>
-                  <div class="tier-vol">80+ kg/month · 6-month term</div>
-                </td>
-                <td><span class="price-chip">2.80</span></td>
-                <td>
-                  <div class="margin-bar-wrap">
-                    <div class="margin-bar" style="width:52px"></div>
-                    <span class="margin-val">57.6%</span>
-                  </div>
-                </td>
-                <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--teal)">~152K</span></td>
-              </tr>
-              <tr class="tier-row active" onclick="selectTierRow(this, 3.00, 40)">
-                <td>
-                  <div class="tier-name">Standard Entry ★</div>
-                  <div class="tier-vol">40–80 kg/month · 6-month term</div>
-                </td>
-                <td><span class="price-chip">3.00</span></td>
-                <td>
-                  <div class="margin-bar-wrap">
-                    <div class="margin-bar" style="width:46px"></div>
-                    <span class="margin-val">54.5%</span>
-                  </div>
-                </td>
-                <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--teal)">~144K</span></td>
-              </tr>
-              <tr class="tier-row" onclick="selectTierRow(this, 3.20, 40)">
-                <td>
-                  <div class="tier-name">Standard Premium</div>
-                  <div class="tier-vol">40–80 kg/month · no commitment</div>
-                </td>
-                <td><span class="price-chip">3.20</span></td>
-                <td>
-                  <div class="margin-bar-wrap">
-                    <div class="margin-bar" style="width:40px"></div>
-                    <span class="margin-val">51.5%</span>
-                  </div>
-                </td>
-                <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--teal)">~136K</span></td>
-              </tr>
-              <tr class="tier-row" onclick="selectTierRow(this, 3.50, 20)">
-                <td>
-                  <div class="tier-name">Flexible Supply</div>
-                  <div class="tier-vol">Under 20 kg/month · no commitment</div>
-                </td>
-                <td><span class="price-chip">3.50</span></td>
-                <td>
-                  <div class="margin-bar-wrap">
-                    <div class="margin-bar" style="width:32px"></div>
-                    <span class="margin-val">47.0%</span>
-                  </div>
-                </td>
-                <td><span style="font-family:var(--font-mono);font-size:13px;color:var(--teal)">~100K</span></td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- Global Inputs -->
+    <div class="gi-box">
+      <div class="gi-box-title">A. Global Inputs</div>
+      <div class="gi-grid">
+        <div class="gi-field">
+          <div class="gi-label">Our Price ($/g)</div>
+          <input class="gi-input" type="number" id="gi-price" value="2.50" min="0" step="0.01" oninput="calcPricing()">
+        </div>
+        <div class="gi-field">
+          <div class="gi-label">Jar Size (grams)</div>
+          <input class="gi-input" type="number" id="gi-jar" value="15" min="1" step="1" oninput="calcPricing()">
+        </div>
+        <div class="gi-field">
+          <div class="gi-label">Carton (pcs)</div>
+          <input class="gi-input" type="number" id="gi-carton" value="12" min="1" step="1" oninput="calcPricing()">
+        </div>
+        <div class="gi-field">
+          <div class="gi-label">RSP (per jar)</div>
+          <input class="gi-input" type="number" id="gi-rsp" value="99.00" min="0" step="0.01" oninput="calcPricing()">
+        </div>
+        <div class="gi-field">
+          <div class="gi-label">Doctor / Clinic Incentive</div>
+          <input class="gi-input" type="number" id="gi-doctor" value="30.00" min="0" step="0.01" oninput="calcPricing()">
+        </div>
+        <div class="gi-field">
+          <div class="gi-label">Pharmacy Margin</div>
+          <input class="gi-input" type="number" id="gi-pharma" value="30.00" min="0" step="0.01" oninput="calcPricing()">
         </div>
       </div>
     </div>
+
+    <!-- Pricing Schedule Table -->
+    <div class="ps-wrap">
+      <div class="ps-section-title">Product Pricing Schedule — Direct to Clinic / Pharmacy</div>
+      <div class="ps-table-scroll">
+        <table class="ps-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Category</th>
+              <th>Our Price<br>(per gram)</th>
+              <th>Buyer Cost<br>(per jar)</th>
+              <th>Distributor Incentive<br>(Lienthai)</th>
+              <th>Pharmacy<br>Margin</th>
+              <th>Doctor / Clinic<br>Incentive</th>
+              <th>Patient RSP<br>(per jar)</th>
+            </tr>
+          </thead>
+          <tbody id="ps-jar-body"></tbody>
+        </table>
+      </div>
+      <div class="ps-table-scroll" style="margin-top:2px;">
+        <table class="ps-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Volume Profile</th>
+              <th>Our Price<br>(per Carton)</th>
+              <th>Buyer Cost<br>(per Carton)</th>
+              <th>Distributor Incentive<br>(Lienthai)</th>
+              <th>Pharmacy<br>Margin</th>
+              <th>Doctor / Clinic<br>Incentive</th>
+              <th>Patient RSP<br>(per Carton)</th>
+            </tr>
+          </thead>
+          <tbody id="ps-carton-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Monthly GP Calculator -->
+    <div class="gp-calc-box">
+      <div class="gp-calc-title">Monthly GP Estimate</div>
+      <div class="gp-calc-inner">
+        <div class="gp-slider-group">
+          <div class="gp-slider-label">Jars / month: <span id="gp-slider-val">100 jars/mo</span></div>
+          <input type="range" class="vol-slider" id="gp-slider" min="0" max="1000" step="10" value="100" oninput="calcMonthlyGP()">
+        </div>
+        <div class="gp-results">
+          <div class="gp-result-item">
+            <div class="gp-result-label">GP / jar</div>
+            <div class="gp-result-val" id="gp-per-jar">AUD 30.00</div>
+          </div>
+          <div class="gp-result-item">
+            <div class="gp-result-label">Monthly GP</div>
+            <div class="gp-result-big" id="gp-monthly">AUD 3,000</div>
+          </div>
+          <div class="gp-result-item">
+            <div class="gp-result-label">Margin on RSP</div>
+            <div class="gp-result-val" id="gp-margin">30.3%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -479,51 +474,81 @@
 </div>
 
 <script>
-// ── MARGIN CALCULATOR ──
-let currentPrice = 3.00;
-let currentRefKg = 40;
+// ── PRICING SCHEDULE CALCULATOR ──
+const TIER_DEFAULTS = {
+  value:   { price: 2.50, jar: 15, carton: 12, rsp: 99.00,  doctor: 30.00, pharma: 30.00 },
+  premium: { price: 3.50, jar: 15, carton: 12, rsp: 150.00, doctor: 40.00, pharma: 40.00 },
+};
+let currentTier = 'value';
 let portfolioData = [];
-function selectTierRow(row, price) {
-  document.querySelectorAll('.tier-row').forEach(r => r.classList.remove('active'));
-  row.classList.add('active');
-  currentPrice = price;
-  const slider = row.querySelector('.vol-slider');
-  currentRefKg = slider ? parseFloat(slider.value) : 40;
-  calcMargin();
+
+function switchTier(tier, btn) {
+  currentTier = tier;
+  document.querySelectorAll('.tier-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = TIER_DEFAULTS[tier];
+  document.getElementById('gi-price').value = d.price.toFixed(2);
+  document.getElementById('gi-jar').value = d.jar;
+  document.getElementById('gi-carton').value = d.carton;
+  document.getElementById('gi-rsp').value = d.rsp.toFixed(2);
+  document.getElementById('gi-doctor').value = d.doctor.toFixed(2);
+  document.getElementById('gi-pharma').value = d.pharma.toFixed(2);
+  calcPricing();
 }
-function updateTierGP(slider, i, price) {
-  const refKg = parseFloat(slider.value);
-  const volEl = document.getElementById(`svol-${i}`);
-  if (volEl) volEl.textContent = refKg + ' kg/mo';
-  const row = slider.closest('.tier-row');
-  if (row && row.classList.contains('active')) currentRefKg = refKg;
-  calcMargin();
+
+function calcPricing() {
+  const price   = parseFloat(document.getElementById('gi-price').value) || 0;
+  const jar     = parseFloat(document.getElementById('gi-jar').value) || 15;
+  const carton  = parseFloat(document.getElementById('gi-carton').value) || 12;
+  const rsp     = parseFloat(document.getElementById('gi-rsp').value) || 0;
+  const doctor  = parseFloat(document.getElementById('gi-doctor').value) || 0;
+  const pharma  = parseFloat(document.getElementById('gi-pharma').value) || 0;
+  const buyerJar    = price * jar;
+  const distJar     = rsp - buyerJar - pharma - doctor;
+  const priceCarton = price * jar * carton;
+  const buyerCarton = buyerJar * carton;
+  const distCarton  = distJar * carton;
+  const rspCarton   = rsp * carton;
+  const label = currentTier === 'value' ? 'Value' : 'Premium';
+  const f = v => {
+    const abs = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return (v < 0 ? '−$' : '$') + abs;
+  };
+  document.getElementById('ps-jar-body').innerHTML = `
+    <tr>
+      <td class="ps-tier">${label}</td>
+      <td class="ps-cat">Jar</td>
+      <td class="ps-our-price">${f(price)}</td>
+      <td>${f(buyerJar)}</td>
+      <td>${f(distJar)}</td>
+      <td class="ps-pharma">${f(pharma)}</td>
+      <td>${f(doctor)}</td>
+      <td class="ps-rsp">${f(rsp)}</td>
+    </tr>`;
+  document.getElementById('ps-carton-body').innerHTML = `
+    <tr>
+      <td class="ps-tier">${label}</td>
+      <td class="ps-cat">Carton (${Math.round(carton)} jars)</td>
+      <td class="ps-our-price">${f(priceCarton)}</td>
+      <td>${f(buyerCarton)}</td>
+      <td>${f(distCarton)}</td>
+      <td class="ps-pharma">${f(pharma * carton)}</td>
+      <td>${f(doctor * carton)}</td>
+      <td class="ps-rsp">${f(rspCarton)}</td>
+    </tr>`;
+  calcMonthlyGP();
 }
-function fmtNum(n) { return parseFloat(n.toFixed(2)).toString(); }
-function calcMargin() {
-  const rsp = parseFloat(document.getElementById('rsp').value) || 99;
-  const jarSize = parseFloat(document.getElementById('jar-size').value) || 15;
-  const cost = currentPrice * jarSize;
-  const gp = rsp - cost;
-  const margin = ((gp / rsp) * 100).toFixed(1);
-  const monthlyGP = Math.round(gp * (currentRefKg * 1000 / jarSize));
-  document.getElementById('res-cost').textContent = `AUD ${fmtNum(cost)}`;
-  document.getElementById('res-gp').textContent = `AUD ${fmtNum(gp)}`;
-  document.getElementById('res-monthly').textContent = `AUD ${monthlyGP.toLocaleString()}`;
-  document.getElementById('res-margin').textContent = `${margin}%`;
-  document.querySelector('.calc-result-big-sub').textContent =
-    `At AUD ${currentPrice.toFixed(2)}/g wholesale · AUD ${rsp.toFixed(2)} RSP`;
-  document.querySelectorAll('.vol-slider').forEach(sl => {
-    const m = sl.id.match(/slider-(\d+)/);
-    if (!m) return;
-    const idx = parseInt(m[1]);
-    const rowPrice = parseFloat(sl.closest('.tier-row').dataset.price);
-    const g = rsp - rowPrice * jarSize;
-    const refKg = parseFloat(sl.value);
-    const mgp = Math.round(g * refKg * 1000 / jarSize);
-    const gpEl = document.getElementById(`sgp-${idx}`);
-    if (gpEl) gpEl.textContent = refKg > 0 ? '~' + Math.round(mgp / 1000) + 'K' : '—';
-  });
+
+function calcMonthlyGP() {
+  const pharma = parseFloat(document.getElementById('gi-pharma').value) || 0;
+  const rsp    = parseFloat(document.getElementById('gi-rsp').value) || 0;
+  const jars   = parseInt(document.getElementById('gp-slider').value) || 0;
+  const monthly = pharma * jars;
+  const pct = rsp > 0 ? ((pharma / rsp) * 100).toFixed(1) : '0.0';
+  document.getElementById('gp-slider-val').textContent = jars + ' jars/mo';
+  document.getElementById('gp-monthly').textContent = 'AUD ' + monthly.toLocaleString('en-US', { minimumFractionDigits: 0 });
+  document.getElementById('gp-per-jar').textContent = 'AUD ' + pharma.toFixed(2);
+  document.getElementById('gp-margin').textContent = pct + '%';
 }
 
 // ── FILTER ──
@@ -715,54 +740,6 @@ function fetchSheet(sheetName) {
     script.onerror = () => { delete window[cb]; reject(new Error('Failed')); };
     document.head.appendChild(script);
   });
-}
-
-const SLIDER_RANGES = [
-  { min: 80, max: 120, def: 80 },
-  { min: 40, max: 80,  def: 40 },
-  { min: 40, max: 80,  def: 40 },
-  { min: 0,  max: 40,  def: 20 },
-];
-
-async function loadPricingTiers() {
-  try {
-    const tiers = await fetchSheet('Pricing_Tiers');
-    if (!tiers || tiers.error) return;
-    const tbody = document.querySelector('#pricing-table tbody');
-    tbody.innerHTML = tiers.map((t, i) => {
-      const price = parseFloat(t.price_per_g);
-      const range = SLIDER_RANGES[i] || { min: 0, max: 80, def: 40 };
-      const sliderVal = range.def;
-      const gp = 99 - price * 15;
-      const margin = ((gp / 99) * 100).toFixed(1);
-      const barW = Math.round(parseFloat(margin) * 0.9);
-      const monthlyK = Math.round(gp * sliderVal * 1000 / 15 / 1000);
-      const isActive = i === 1 ? 'active' : '';
-      return `
-        <tr class="tier-row ${isActive}" onclick="selectTierRow(this,${price})" data-price="${price}">
-          <td><div class="tier-name">${t.tier_name}</div><div class="tier-vol">${t.volume_profile}</div></td>
-          <td><span class="price-chip">${price.toFixed(2)}</span></td>
-          <td><div class="margin-bar-wrap"><div class="margin-bar" style="width:${barW}px"></div><span class="margin-val">${margin}%</span></div></td>
-          <td>
-            <div class="tier-gp-cell">
-              <div class="tier-gp-val" id="sgp-${i}">~${monthlyK}K</div>
-              <input type="range" class="vol-slider" id="slider-${i}"
-                     min="${range.min}" max="${range.max}" step="10" value="${sliderVal}"
-                     onclick="event.stopPropagation()"
-                     oninput="updateTierGP(this,${i},${price})">
-              <div class="vol-slider-val" id="svol-${i}">${sliderVal} kg/mo</div>
-            </div>
-          </td>
-        </tr>`;
-    }).join('');
-    const active = tbody.querySelector('.tier-row.active');
-    if (active) {
-      currentPrice = parseFloat(active.dataset.price);
-      const slider = active.querySelector('.vol-slider');
-      currentRefKg = slider ? parseFloat(slider.value) : 40;
-      calcMargin();
-    }
-  } catch(e) { console.warn('Could not load pricing tiers:', e); }
 }
 
 async function loadBundle() {
@@ -963,7 +940,7 @@ function openModalFromPortfolio(idx) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadPricingTiers();
+  calcPricing();
   loadBundle();
   loadSKUs();
   loadPortfolio();
