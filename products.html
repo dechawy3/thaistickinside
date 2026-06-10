@@ -71,7 +71,7 @@
         </div>
         <div class="gi-field">
           <div class="gi-label">Jar Size (grams)</div>
-          <input class="gi-input" type="number" id="gi-jar" value="15" min="1" step="1" oninput="calcPricing()">
+          <input class="gi-input" type="number" id="gi-jar" value="15" min="1" step="1" oninput="onJarInput()">
         </div>
         <div class="gi-field">
           <div class="gi-label">Cost per Jar ($)</div>
@@ -265,6 +265,13 @@ function onCostJarInput() {
   calcPricing();
 }
 
+function onJarInput() {
+  const price = parseFloat(document.getElementById('gi-price').value) || 0;
+  const jar   = parseFloat(document.getElementById('gi-jar').value) || 15;
+  document.getElementById('gi-costjar').value = (price * jar).toFixed(2);
+  calcPricing();
+}
+
 function calcPricing() {
   const price   = parseFloat(document.getElementById('gi-price').value) || 0;
   const jar     = parseFloat(document.getElementById('gi-jar').value) || 15;
@@ -273,7 +280,6 @@ function calcPricing() {
   const doctor  = parseFloat(document.getElementById('gi-doctor').value) || 0;
   const pharma  = parseFloat(document.getElementById('gi-pharma').value) || 0;
   const costJar     = price * jar;
-  document.getElementById('gi-costjar').value = costJar.toFixed(2);
   const distJar     = rsp - costJar - pharma - doctor;
   const buyerJar    = costJar + distJar;
   const priceCarton = price * jar * carton;
