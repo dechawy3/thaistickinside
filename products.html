@@ -106,9 +106,8 @@
               <th>Tier</th>
               <th>Category</th>
               <th>Our Price<br>(per gram)</th>
-              <th>Cost per Jar</th>
-              <th>Distributor Incentive<br>(Lienthai)</th>
               <th>Buyer Cost<br>(per jar)</th>
+              <th>Total<br>volume(g)</th>
               <th>Pharmacy<br>Margin</th>
               <th>Doctor / Clinic<br>Incentive</th>
               <th>Patient RSP<br>(per jar)</th>
@@ -121,13 +120,12 @@
             <tr>
               <th>Tier</th>
               <th>Volume Profile</th>
-              <th>Our Price<br>(per Carton)</th>
-              <th>Cost per Carton</th>
-              <th>Distributor Incentive<br>(Lienthai)</th>
-              <th>Buyer Cost<br>(per Carton)</th>
+              <th>Total<br>volume(g)</th>
+              <th>Our Price</th>
+              <th>Buyer Cost</th>
               <th>Pharmacy<br>Margin</th>
               <th>Doctor / Clinic<br>Incentive</th>
-              <th>Patient RSP<br>(per Carton)</th>
+              <th>Patient RSP<br>(per jar)</th>
             </tr>
           </thead>
           <tbody id="ps-carton-body"></tbody>
@@ -279,43 +277,53 @@ function calcPricing() {
   const rsp     = parseFloat(document.getElementById('gi-rsp').value) || 0;
   const doctor  = parseFloat(document.getElementById('gi-doctor').value) || 0;
   const pharma  = parseFloat(document.getElementById('gi-pharma').value) || 0;
-  const costJar     = price * jar;
-  const distJar     = rsp - costJar - pharma - doctor;
-  const buyerJar    = costJar + distJar;
-  const priceCarton = price * jar * carton;
-  const costCarton  = costJar * carton;
-  const distCarton  = distJar * carton;
-  const buyerCarton = buyerJar * carton;
-  const rspCarton   = rsp * carton;
-  const label = currentTier === 'value' ? 'Value' : 'Premium';
+  const costJar = price * jar;
+  const label   = currentTier === 'value' ? 'Value' : 'Premium';
   const f = v => {
     const abs = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return (v < 0 ? '−$' : '$') + abs;
   };
+  const fv = v => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'g';
+
   document.getElementById('ps-jar-body').innerHTML = `
     <tr>
       <td class="ps-tier">${label}</td>
       <td class="ps-cat">Jar</td>
       <td class="ps-our-price">${f(price)}</td>
       <td>${f(costJar)}</td>
-      <td>${f(distJar)}</td>
-      <td style="color:var(--light);font-weight:600;">${f(buyerJar)}</td>
+      <td>${fv(jar)}</td>
       <td class="ps-pharma">${f(pharma)}</td>
       <td>${f(doctor)}</td>
       <td class="ps-rsp">${f(rsp)}</td>
     </tr>`;
-  document.getElementById('ps-carton-body').innerHTML = `
+
+  const volRows = [
+    { name: `Carton (${Math.round(carton)} jars)`, n: carton },
+    { name: '300 Jars', n: 300 },
+    { name: '500 Jars', n: 500 },
+    { name: '1,000 Jars', n: 1000 },
+  ];
+  document.getElementById('ps-carton-body').innerHTML = volRows.map((row, i) => {
+    const totalVol   = jar * row.n;
+    const ourPrice   = price * totalVol;
+    const buyerCost  = ourPrice;
+    const pharmTotal = pharma * row.n;
+    const docTotal   = doctor * row.n;
+    const rspCell    = i === 0
+      ? `<td class="ps-rsp" rowspan="4" style="vertical-align:middle;text-align:center;">${f(rsp)}</td>`
+      : '';
+    return `
     <tr>
       <td class="ps-tier">${label}</td>
-      <td class="ps-cat">Carton (${Math.round(carton)} jars)</td>
-      <td class="ps-our-price">${f(priceCarton)}</td>
-      <td>${f(costCarton)}</td>
-      <td>${f(distCarton)}</td>
-      <td style="color:var(--light);font-weight:600;">${f(buyerCarton)}</td>
-      <td class="ps-pharma">${f(pharma * carton)}</td>
-      <td>${f(doctor * carton)}</td>
-      <td class="ps-rsp">${f(rspCarton)}</td>
+      <td class="ps-cat">${row.name}</td>
+      <td>${fv(totalVol)}</td>
+      <td class="ps-our-price">${f(ourPrice)}</td>
+      <td>${f(buyerCost)}</td>
+      <td class="ps-pharma">${f(pharmTotal)}</td>
+      <td>${f(docTotal)}</td>
+      ${rspCell}
     </tr>`;
+  }).join('');
 }
 
 const skuData = {
