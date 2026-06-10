@@ -67,11 +67,15 @@
       <div class="gi-grid">
         <div class="gi-field">
           <div class="gi-label">Our Price ($/g)</div>
-          <input class="gi-input" type="number" id="gi-price" value="2.50" min="0" step="0.01" oninput="calcPricing()">
+          <input class="gi-input" type="number" id="gi-price" value="2.50" min="0" step="0.01" oninput="onPriceInput()">
         </div>
         <div class="gi-field">
           <div class="gi-label">Jar Size (grams)</div>
           <input class="gi-input" type="number" id="gi-jar" value="15" min="1" step="1" oninput="calcPricing()">
+        </div>
+        <div class="gi-field">
+          <div class="gi-label">Cost per Jar ($)</div>
+          <input class="gi-input" type="number" id="gi-costjar" value="37.50" min="0" step="0.01" oninput="onCostJarInput()">
         </div>
         <div class="gi-field">
           <div class="gi-label">Carton (pcs)</div>
@@ -239,10 +243,25 @@ function switchTier(tier, btn) {
   const d = TIER_DEFAULTS[tier];
   document.getElementById('gi-price').value = d.price.toFixed(2);
   document.getElementById('gi-jar').value = d.jar;
+  document.getElementById('gi-costjar').value = (d.price * d.jar).toFixed(2);
   document.getElementById('gi-carton').value = d.carton;
   document.getElementById('gi-rsp').value = d.rsp.toFixed(2);
   document.getElementById('gi-doctor').value = d.doctor.toFixed(2);
   document.getElementById('gi-pharma').value = d.pharma.toFixed(2);
+  calcPricing();
+}
+
+function onPriceInput() {
+  const price = parseFloat(document.getElementById('gi-price').value) || 0;
+  const jar   = parseFloat(document.getElementById('gi-jar').value) || 15;
+  document.getElementById('gi-costjar').value = (price * jar).toFixed(2);
+  calcPricing();
+}
+
+function onCostJarInput() {
+  const costJar = parseFloat(document.getElementById('gi-costjar').value) || 0;
+  const jar     = parseFloat(document.getElementById('gi-jar').value) || 15;
+  document.getElementById('gi-price').value = jar > 0 ? (costJar / jar).toFixed(2) : '0.00';
   calcPricing();
 }
 
@@ -254,6 +273,7 @@ function calcPricing() {
   const doctor  = parseFloat(document.getElementById('gi-doctor').value) || 0;
   const pharma  = parseFloat(document.getElementById('gi-pharma').value) || 0;
   const costJar     = price * jar;
+  document.getElementById('gi-costjar').value = costJar.toFixed(2);
   const distJar     = rsp - costJar - pharma - doctor;
   const buyerJar    = costJar + distJar;
   const priceCarton = price * jar * carton;
