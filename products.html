@@ -120,9 +120,9 @@
             <tr>
               <th>Tier</th>
               <th>Volume Profile</th>
-              <th>Total<br>volume(g)</th>
               <th>Our Price</th>
               <th>Buyer Cost</th>
+              <th>Total<br>volume(g)</th>
               <th>Pharmacy<br>Margin</th>
               <th>Doctor / Clinic<br>Incentive</th>
               <th>Patient RSP<br>(per jar)</th>
@@ -316,9 +316,9 @@ function calcPricing() {
     <tr>
       <td class="ps-tier">${label}</td>
       <td class="ps-cat">${row.name}</td>
-      <td>${fv(totalVol)}</td>
       <td class="ps-our-price">${f(ourPrice)}</td>
       <td>${f(buyerCost)}</td>
+      <td>${fv(totalVol)}</td>
       <td class="ps-pharma">${f(pharmTotal)}</td>
       <td>${f(docTotal)}</td>
       ${rspCell}

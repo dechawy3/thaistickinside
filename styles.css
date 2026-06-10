@@ -1313,7 +1313,7 @@ footer {
   white-space: nowrap;
 }
 .ps-table {
-  width: 100%; border-collapse: collapse; min-width: 800px;
+  width: 100%; border-collapse: collapse; min-width: 800px; table-layout: fixed;
 }
 .ps-table th {
   background: var(--dark-3);
