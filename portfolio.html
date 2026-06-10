@@ -389,6 +389,28 @@ function fetchSheet(sheetName) {
   });
 }
 
+function driveUrl(url) {
+  if (!url) return '';
+  const m = url.match(/\/d\/([^/?]+)/);
+  return m ? `https://drive.google.com/uc?export=view&id=${m[1]}` : url;
+}
+function photoHtml(url) {
+  const src = driveUrl(url);
+  if (src) return `<img src="${src}" alt="Product photo" onerror="this.parentElement.innerHTML=placeholderPhoto()">`;
+  return placeholderPhoto();
+}
+function placeholderPhoto() {
+  return `<div class="modal-photo-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo</span></div>`;
+}
+function qrHtml(url) {
+  const src = driveUrl(url);
+  if (src) return `<img src="${src}" alt="COA QR Code" onerror="this.parentElement.innerHTML=placeholderQr()">`;
+  return placeholderQr();
+}
+function placeholderQr() {
+  return `<div class="modal-qr-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="5" y="5" width="3" height="3" fill="currentColor"/><rect x="16" y="5" width="3" height="3" fill="currentColor"/><rect x="5" y="16" width="3" height="3" fill="currentColor"/></svg><span>QR Code</span></div>`;
+}
+
 function filterSKU(ind, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -494,10 +516,11 @@ function openModal(id) {
   const d = skuData[id];
   document.getElementById('modal-content').innerHTML = `
     <div class="modal-header">
-      <div>
+      <div class="modal-header-left">
         <div class="modal-ind"><span class="sku-ind ${d.indClass}">${d.ind}</span></div>
         <div class="modal-name">${d.name}</div>
       </div>
+      <div class="modal-photo">${photoHtml(d.image || '')}</div>
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
     <div class="modal-body">
@@ -530,6 +553,13 @@ function openModal(id) {
       <div class="modal-section">
         <div class="modal-section-title">Recommended Patient Profile</div>
         <p style="font-size:13px;color:var(--muted);line-height:1.7;">${d.patient}</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">COA QR Code</div>
+        <div class="modal-qr-wrap">
+          <div class="modal-qr-img">${qrHtml(d.qr || '')}</div>
+          <p class="modal-qr-note">Scan to verify Certificate of Analysis for this batch. Updated each TGO93 release.</p>
+        </div>
       </div>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
@@ -665,10 +695,11 @@ function openModalFromPortfolio(idx) {
   const coa = ['Potency — PASS','Microbiology — PASS','Pesticides — PASS','Heavy Metals — PASS','Residual Solvents — PASS','Irradiation — Confirmed'];
   document.getElementById('modal-content').innerHTML = `
     <div class="modal-header">
-      <div>
+      <div class="modal-header-left">
         <div class="modal-ind"><span class="sku-ind ${p.ind_class}">${p.indication}</span></div>
         <div class="modal-name">${p.name}</div>
       </div>
+      <div class="modal-photo">${photoHtml(p.image_url || '')}</div>
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
     <div class="modal-body">
@@ -702,6 +733,13 @@ function openModalFromPortfolio(idx) {
       <div class="modal-section">
         <div class="modal-section-title">Recommended Patient Profile</div>
         <p style="font-size:13px;color:var(--muted);line-height:1.7;">${p.patient_profile}</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">COA QR Code</div>
+        <div class="modal-qr-wrap">
+          <div class="modal-qr-img">${qrHtml(p.qr_url || '')}</div>
+          <p class="modal-qr-note">Scan to verify Certificate of Analysis for this batch. Updated each TGO93 release.</p>
+        </div>
       </div>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
