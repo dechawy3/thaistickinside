@@ -102,8 +102,9 @@
               <th>Tier</th>
               <th>Category</th>
               <th>Our Price<br>(per gram)</th>
-              <th>Buyer Cost<br>(per jar)</th>
+              <th>Cost per Jar</th>
               <th>Distributor Incentive<br>(Lienthai)</th>
+              <th>Buyer Cost<br>(per jar)</th>
               <th>Pharmacy<br>Margin</th>
               <th>Doctor / Clinic<br>Incentive</th>
               <th>Patient RSP<br>(per jar)</th>
@@ -117,8 +118,9 @@
               <th>Tier</th>
               <th>Volume Profile</th>
               <th>Our Price<br>(per Carton)</th>
-              <th>Buyer Cost<br>(per Carton)</th>
+              <th>Cost per Carton</th>
               <th>Distributor Incentive<br>(Lienthai)</th>
+              <th>Buyer Cost<br>(per Carton)</th>
               <th>Pharmacy<br>Margin</th>
               <th>Doctor / Clinic<br>Incentive</th>
               <th>Patient RSP<br>(per Carton)</th>
@@ -251,11 +253,13 @@ function calcPricing() {
   const rsp     = parseFloat(document.getElementById('gi-rsp').value) || 0;
   const doctor  = parseFloat(document.getElementById('gi-doctor').value) || 0;
   const pharma  = parseFloat(document.getElementById('gi-pharma').value) || 0;
-  const buyerJar    = price * jar;
-  const distJar     = rsp - buyerJar - pharma - doctor;
+  const costJar     = price * jar;
+  const distJar     = rsp - costJar - pharma - doctor;
+  const buyerJar    = costJar + distJar;
   const priceCarton = price * jar * carton;
-  const buyerCarton = buyerJar * carton;
+  const costCarton  = costJar * carton;
   const distCarton  = distJar * carton;
+  const buyerCarton = buyerJar * carton;
   const rspCarton   = rsp * carton;
   const label = currentTier === 'value' ? 'Value' : 'Premium';
   const f = v => {
@@ -267,8 +271,9 @@ function calcPricing() {
       <td class="ps-tier">${label}</td>
       <td class="ps-cat">Jar</td>
       <td class="ps-our-price">${f(price)}</td>
-      <td>${f(buyerJar)}</td>
+      <td>${f(costJar)}</td>
       <td>${f(distJar)}</td>
+      <td style="color:var(--light);font-weight:600;">${f(buyerJar)}</td>
       <td class="ps-pharma">${f(pharma)}</td>
       <td>${f(doctor)}</td>
       <td class="ps-rsp">${f(rsp)}</td>
@@ -278,8 +283,9 @@ function calcPricing() {
       <td class="ps-tier">${label}</td>
       <td class="ps-cat">Carton (${Math.round(carton)} jars)</td>
       <td class="ps-our-price">${f(priceCarton)}</td>
-      <td>${f(buyerCarton)}</td>
+      <td>${f(costCarton)}</td>
       <td>${f(distCarton)}</td>
+      <td style="color:var(--light);font-weight:600;">${f(buyerCarton)}</td>
       <td class="ps-pharma">${f(pharma * carton)}</td>
       <td>${f(doctor * carton)}</td>
       <td class="ps-rsp">${f(rspCarton)}</td>
