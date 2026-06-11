@@ -824,6 +824,13 @@ document.addEventListener('click', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Hide nav links for visitor access
+  if (sessionStorage.getItem('access') === 'visitor') {
+    const navLinks = document.querySelector('.nav-links');
+    const navToggle = document.querySelector('.nav-toggle');
+    if (navLinks) navLinks.style.display = 'none';
+    if (navToggle) navToggle.style.display = 'none';
+  }
   // Pre-fill rep name from session (set at login)
   const repName = sessionStorage.getItem('rep_name');
   if (repName) {

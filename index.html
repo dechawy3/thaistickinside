@@ -88,6 +88,7 @@
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8iOtGgmpEAqamLS6N-fvlZWcW5fuktj_UGrLCuRMY7mgmcJD18vge5jQldxHOvPU/exec';
 
 function goVisitor() {
+  sessionStorage.setItem('access', 'visitor');
   window.location.href = 'portfolio.html';
 }
 function openPinModal() {
@@ -148,6 +149,7 @@ async function submitPin() {
     const match = rows && rows.find(r => String(r.pin).trim() === pin.trim());
     if (match) {
       sessionStorage.setItem('rep_name', match.name || '');
+      sessionStorage.setItem('access', 'team');
       window.location.href = 'ThaiStick_Website.html';
     } else {
       err.classList.add('show');
