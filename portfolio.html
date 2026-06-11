@@ -58,6 +58,11 @@
 <section id="products" style="padding: 40px 0 120px; background: var(--dark-2);">
   <div class="container">
 
+    <div class="tier-tabs" id="portfolio-tier-tabs" style="margin-bottom:24px;">
+      <button class="tier-tab active" data-tier="value" onclick="filterPortfolioTier('value',this)">Value Tier</button>
+      <button class="tier-tab" data-tier="premium" onclick="filterPortfolioTier('premium',this)">Premium Tier</button>
+    </div>
+
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterSKU('all', this)">All Products</button>
       <button class="filter-btn" onclick="filterSKU('sleep', this)">Sleep Disorders</button>
@@ -69,7 +74,7 @@
     <div class="sku-grid">
 
       <!-- TROP CHERRY BX1 -->
-      <div class="sku-card" data-ind="sleep">
+      <div class="sku-card" data-ind="sleep" data-tier="value">
         <div class="sku-top-row">
           <span class="sku-ind ind-sleep">Sleep Disorders</span>
           <span class="sku-morph">Hybrid</span>
@@ -100,7 +105,7 @@
       </div>
 
       <!-- RUNTZ MINTS -->
-      <div class="sku-card" data-ind="pain">
+      <div class="sku-card" data-ind="pain" data-tier="value">
         <div class="sku-top-row">
           <span class="sku-ind ind-pain">Pain Management</span>
           <span class="sku-morph">Hybrid</span>
@@ -131,7 +136,7 @@
       </div>
 
       <!-- MAUI WOWIE 2.0 -->
-      <div class="sku-card" data-ind="pain">
+      <div class="sku-card" data-ind="pain" data-tier="value">
         <div class="sku-top-row">
           <span class="sku-ind ind-pain">Pain Management</span>
           <span class="sku-morph">Sativa Dominant</span>
@@ -162,7 +167,7 @@
       </div>
 
       <!-- TROPICAL BLUES -->
-      <div class="sku-card" data-ind="pain">
+      <div class="sku-card" data-ind="pain" data-tier="premium">
         <div class="sku-top-row">
           <span class="sku-ind ind-pain">Pain Management</span>
           <span class="sku-morph">Sativa Dominant</span>
@@ -193,7 +198,7 @@
       </div>
 
       <!-- PRIZEFIGHTER -->
-      <div class="sku-card" data-ind="anxiety">
+      <div class="sku-card" data-ind="anxiety" data-tier="value">
         <div class="sku-top-row">
           <span class="sku-ind ind-anxiety">Pain Management</span>
           <span class="sku-morph">Indica Dominant</span>
@@ -224,7 +229,7 @@
       </div>
 
       <!-- DA FUNK -->
-      <div class="sku-card" data-ind="depression">
+      <div class="sku-card" data-ind="depression" data-tier="value">
         <div class="sku-top-row">
           <span class="sku-ind ind-depression">Mental Health</span>
           <span class="sku-morph">Indica Dominant</span>
@@ -429,12 +434,27 @@ function placeholderQr() {
   return `<div class="modal-qr-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="5" y="5" width="3" height="3" fill="currentColor"/><rect x="16" y="5" width="3" height="3" fill="currentColor"/><rect x="5" y="16" width="3" height="3" fill="currentColor"/></svg><span>QR Code</span></div>`;
 }
 
+let currentPortfolioTier = 'value';
+let currentPortfolioInd = 'all';
+
+function applyFilters() {
+  document.querySelectorAll('.sku-card').forEach(card => {
+    const wrongTier = (card.dataset.tier || 'value') !== currentPortfolioTier;
+    const wrongInd = currentPortfolioInd !== 'all' && card.dataset.ind !== currentPortfolioInd;
+    card.classList.toggle('hidden', wrongTier || wrongInd);
+  });
+}
+function filterPortfolioTier(tier, btn) {
+  currentPortfolioTier = tier;
+  document.querySelectorAll('#portfolio-tier-tabs .tier-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
 function filterSKU(ind, btn) {
+  currentPortfolioInd = ind;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.sku-card').forEach(card => {
-    card.classList.toggle('hidden', ind !== 'all' && card.dataset.ind !== ind);
-  });
+  applyFilters();
 }
 
 const skuData = {
@@ -674,7 +694,7 @@ async function loadPortfolio() {
         return `<span class="med-tag ${cls}">${v}</span>`;
       }).join('') : '';
       return `
-        <div class="sku-card" data-ind="${p.filter_ind}">
+        <div class="sku-card" data-ind="${p.filter_ind}" data-tier="${(p.tier || 'value').toLowerCase()}">
           <div class="sku-top-row">
             <span class="sku-ind ${p.ind_class}">${p.indication}</span>
             <span class="sku-morph">${p.morphology}</span>
@@ -803,10 +823,13 @@ document.addEventListener('click', function(e) {
   }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   loadSKUs();
-  loadPortfolio();
+  await loadPortfolio();
   loadBundle();
+  const tier = new URLSearchParams(window.location.search).get('tier') || 'value';
+  const btn = document.querySelector(`#portfolio-tier-tabs .tier-tab[data-tier="${tier}"]`);
+  filterPortfolioTier(tier, btn);
 });
 </script>
 </body>
