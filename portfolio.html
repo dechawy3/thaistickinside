@@ -915,7 +915,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (navLinks) navLinks.style.display = 'none';
     if (navToggle) navToggle.style.display = 'none';
     if (logFab) logFab.style.display = 'none';
-    if (navLogo) { navLogo.removeAttribute('href'); navLogo.style.cursor = 'default'; }
+    if (navLogo) { navLogo.href = 'index.html'; }
     if (enquiryBtn) enquiryBtn.style.display = 'block';
   }
   // Pre-fill rep name from session (set at login)
