@@ -1166,8 +1166,8 @@ footer {
 
 /* ── ENQUIRY BUTTON ── */
 .enquiry-fab {
-  background: linear-gradient(135deg, #4ade80, #0BA896);
-  color: #fff; border: none; border-radius: 6px;
+  background: var(--grad);
+  color: var(--dark); border: none; border-radius: 6px;
   padding: 12px 28px; font-size: 13px; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   cursor: pointer; transition: opacity 0.2s;
