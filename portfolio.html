@@ -829,9 +829,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navLinks = document.querySelector('.nav-links');
     const navToggle = document.querySelector('.nav-toggle');
     const logFab = document.querySelector('.log-visit-fab');
+    const navLogo = document.querySelector('.nav-logo');
     if (navLinks) navLinks.style.display = 'none';
     if (navToggle) navToggle.style.display = 'none';
     if (logFab) logFab.style.display = 'none';
+    if (navLogo) { navLogo.removeAttribute('href'); navLogo.style.cursor = 'default'; }
   }
   // Pre-fill rep name from session (set at login)
   const repName = sessionStorage.getItem('rep_name');
