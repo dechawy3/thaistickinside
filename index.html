@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Thai Stick — Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.splash-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--dark); position: relative; overflow: hidden; }
+.splash-logo { display: flex; align-items: center; gap: 12px; position: absolute; top: 32px; left: 48px; text-decoration: none; }
+.splash-logo-text { font-family: var(--font-disp); font-size: 20px; font-weight: 600; letter-spacing: 0.05em; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.splash-content { text-align: center; max-width: 700px; padding: 0 32px; }
+.splash-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.splash-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--teal); border-radius: 50%; }
+.splash-title { font-family: var(--font-disp); font-size: clamp(40px, 6vw, 72px); font-weight: 300; line-height: 1.1; color: var(--light); margin-bottom: 32px; }
+.splash-sub { font-size: 15px; color: var(--muted); margin-bottom: 48px; line-height: 1.6; }
+.splash-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.splash-btn-visitor { background: transparent; border: 1px solid var(--border); color: var(--light); padding: 14px 40px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: border-color 0.2s; font-family: var(--font-sans); }
+.splash-btn-visitor:hover { border-color: var(--light-2); }
+.splash-btn-team { background: var(--grad); border: none; color: var(--dark); padding: 14px 40px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; font-family: var(--font-sans); }
+.splash-btn-team:hover { opacity: 0.85; }
+
+/* PIN modal */
+.pin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+.pin-overlay.open { display: flex; }
+.pin-modal { background: var(--dark-2); border: 1px solid var(--border); border-radius: 12px; padding: 40px; width: 360px; max-width: 90vw; text-align: center; position: relative; }
+.pin-title { font-family: var(--font-disp); font-size: 26px; font-weight: 400; color: var(--light); margin-bottom: 8px; }
+.pin-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+.pin-inputs { display: flex; gap: 12px; justify-content: center; margin-bottom: 24px; }
+.pin-digit { width: 56px; height: 64px; background: var(--dark-3); border: 1px solid var(--border); border-radius: 8px; color: var(--light); font-size: 28px; font-family: var(--font-mono); text-align: center; outline: none; transition: border-color 0.2s; }
+.pin-digit:focus { border-color: var(--teal); }
+.pin-error { font-size: 12px; color: #ff6b6b; margin-bottom: 16px; min-height: 18px; display: none; line-height: 1.5; }
+.pin-error.show { display: block; }
+.pin-submit { width: 100%; background: var(--grad); border: none; color: var(--dark); padding: 14px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: opacity 0.2s; font-family: var(--font-sans); }
+.pin-submit:hover { opacity: 0.85; }
+.pin-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.pin-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+.pin-close:hover { color: var(--light); }
+@media (max-width: 600px) {
+  .splash-logo { left: 24px; top: 24px; }
+  .splash-btns { flex-direction: column; align-items: center; }
+  .splash-btn-visitor, .splash-btn-team { width: 240px; }
+}
+</style>
+</head>
+<body>
+
+<div class="splash-page">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+
+  <a class="splash-logo" href="#">
+    <img src="Thai Stick Logo.png" alt="Thai Stick" style="height:36px;width:36px;object-fit:contain;">
+    <span class="splash-logo-text">THAI STICK</span>
+  </a>
+
+  <div class="splash-content">
+    <div class="splash-eyebrow">Medical Cannabis Supply · Perth WA · GMP Certified</div>
+    <h1 class="splash-title">
+      The Supply Partner<br>
+      <strong class="grad-text">Your Dispensary Can Count On.</strong>
+    </h1>
+    <p class="splash-sub">From Thailand to your hands.</p>
+    <div class="splash-btns">
+      <button class="splash-btn-visitor" onclick="goVisitor()">Visitor</button>
+      <button class="splash-btn-team" onclick="openPinModal()">Team →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PIN MODAL -->
+<div class="pin-overlay" id="pin-overlay" onclick="closePinOutside(event)">
+  <div class="pin-modal">
+    <button class="pin-close" onclick="closePinModal()">×</button>
+    <div class="pin-title">Team Access</div>
+    <div class="pin-sub">Enter your 4-digit access code</div>
+    <div class="pin-inputs">
+      <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" id="p0" oninput="pinInput(0)" onkeydown="pinKeyDown(event,0)">
+      <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" id="p1" oninput="pinInput(1)" onkeydown="pinKeyDown(event,1)">
+      <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" id="p2" oninput="pinInput(2)" onkeydown="pinKeyDown(event,2)">
+      <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" id="p3" oninput="pinInput(3)" onkeydown="pinKeyDown(event,3)">
+    </div>
+    <div class="pin-error" id="pin-error">Invalid Access Code. Please try again or contact your Administrator.</div>
+    <button class="pin-submit" id="pin-submit" onclick="submitPin()">Verify Access</button>
+  </div>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8iOtGgmpEAqamLS6N-fvlZWcW5fuktj_UGrLCuRMY7mgmcJD18vge5jQldxHOvPU/exec';
+
+function goVisitor() {
+  window.location.href = 'portfolio.html';
+}
+function openPinModal() {
+  document.getElementById('pin-overlay').classList.add('open');
+  resetPin();
+  setTimeout(() => document.getElementById('p0').focus(), 50);
+}
+function closePinModal() {
+  document.getElementById('pin-overlay').classList.remove('open');
+  resetPin();
+}
+function closePinOutside(e) {
+  if (e.target === document.getElementById('pin-overlay')) closePinModal();
+}
+function resetPin() {
+  ['p0','p1','p2','p3'].forEach(id => document.getElementById(id).value = '');
+  const err = document.getElementById('pin-error');
+  err.classList.remove('show');
+  err.textContent = 'Invalid Access Code. Please try again or contact your Administrator.';
+  const btn = document.getElementById('pin-submit');
+  btn.disabled = false;
+  btn.textContent = 'Verify Access';
+}
+function pinInput(i) {
+  const val = document.getElementById('p' + i).value;
+  if (!/^\d$/.test(val)) { document.getElementById('p' + i).value = ''; return; }
+  if (i < 3) document.getElementById('p' + (i + 1)).focus();
+  const pin = ['p0','p1','p2','p3'].map(id => document.getElementById(id).value).join('');
+  if (pin.length === 4) submitPin();
+}
+function pinKeyDown(e, i) {
+  if (e.key === 'Backspace' && !document.getElementById('p' + i).value && i > 0) {
+    document.getElementById('p' + (i - 1)).focus();
+  }
+}
+
+function fetchSheet(sheetName) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    window[cb] = (data) => { delete window[cb]; document.head.removeChild(script); resolve(data); };
+    script.src = `${APPS_SCRIPT_URL}?sheet=${sheetName}&callback=${cb}`;
+    script.onerror = () => { delete window[cb]; reject(new Error('Failed')); };
+    document.head.appendChild(script);
+  });
+}
+
+async function submitPin() {
+  const pin = ['p0','p1','p2','p3'].map(id => document.getElementById(id).value).join('');
+  if (pin.length < 4) return;
+  const btn = document.getElementById('pin-submit');
+  const err = document.getElementById('pin-error');
+  btn.disabled = true;
+  btn.textContent = 'Verifying…';
+  err.classList.remove('show');
+  try {
+    const rows = await fetchSheet('Pins');
+    const match = rows && rows.find(r => String(r.pin).trim() === pin.trim());
+    if (match) {
+      sessionStorage.setItem('rep_name', match.name || '');
+      window.location.href = 'ThaiStick_Website.html';
+    } else {
+      err.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Verify Access';
+      ['p0','p1','p2','p3'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('p0').focus();
+    }
+  } catch(e) {
+    err.textContent = 'Connection error. Please try again.';
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Verify Access';
+  }
+}
+</script>
+</body>
+</html>

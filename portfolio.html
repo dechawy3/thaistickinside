@@ -824,6 +824,12 @@ document.addEventListener('click', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Pre-fill rep name from session (set at login)
+  const repName = sessionStorage.getItem('rep_name');
+  if (repName) {
+    const repInput = document.querySelector('[name="rep_name"]');
+    if (repInput) repInput.value = repName;
+  }
   loadSKUs();
   await loadPortfolio();
   loadBundle();
