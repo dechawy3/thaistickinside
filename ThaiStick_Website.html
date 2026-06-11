@@ -235,6 +235,9 @@ document.addEventListener('click', function(e) {
     const p = document.getElementById('hero-tier-picker');
     if (p) p.style.display = 'none';
   }
+  if (!e.target.closest('nav')) {
+    document.querySelector('nav').classList.remove('nav-open');
+  }
 });
 </script>
 </body>
