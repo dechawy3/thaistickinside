@@ -46,10 +46,15 @@
 ══════════════════════════════ -->
 <section style="padding: 140px 0 60px; background: var(--dark);">
   <div class="container">
-    <div class="section-label">Portfolio Overview</div>
-    <h2 class="section-title">Every <span class="grad-text">Indication-Matched Strains.</span></h2>
-    <p class="section-sub">TGO93-released, GMP-certified medical cannabis flower — matched to the four highest-volume clinical indications in the Australian market.</p>
-    <div class="divider"></div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <div class="section-label">Portfolio Overview</div>
+        <h2 class="section-title">Every <span class="grad-text">Indication-Matched Strains.</span></h2>
+        <p class="section-sub">TGO93-released, GMP-certified medical cannabis flower — matched to the four highest-volume clinical indications in the Australian market.</p>
+        <div class="divider"></div>
+      </div>
+      <button class="enquiry-fab" id="enquiry-btn" onclick="openEnquiryModal()" style="display:none;">Enquiry</button>
+    </div>
   </div>
 </section>
 
@@ -314,6 +319,47 @@
 <!-- PRODUCT DETAIL MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
   <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- ENQUIRY MODAL -->
+<div class="modal-overlay" id="enquiry-overlay" onclick="closeEnquiryOutside(event)">
+  <div class="modal log-modal">
+    <button class="log-close-btn" onclick="closeEnquiryModal()">✕</button>
+    <div class="log-modal-title">Enquiry</div>
+    <form id="enquiry-form" onsubmit="submitEnquiry(event)">
+      <div class="log-form-grid">
+        <div class="log-field">
+          <label class="form-label">First Name *</label>
+          <input class="form-input" name="first_name" required placeholder="e.g. Jane">
+        </div>
+        <div class="log-field">
+          <label class="form-label">Last Name *</label>
+          <input class="form-input" name="last_name" required placeholder="e.g. Smith">
+        </div>
+        <div class="log-field">
+          <label class="form-label">Company *</label>
+          <input class="form-input" name="company" required placeholder="e.g. Perth Wellness Clinic">
+        </div>
+        <div class="log-field">
+          <label class="form-label">Email *</label>
+          <input class="form-input" type="email" name="email" required placeholder="e.g. jane@clinic.com">
+        </div>
+        <div class="log-field">
+          <label class="form-label">Phone Number *</label>
+          <input class="form-input" name="phone" required placeholder="e.g. 0412 345 678">
+        </div>
+        <div class="log-field">
+          <label class="form-label">Arrange Meeting (optional)</label>
+          <input class="form-input" type="date" name="meeting_date">
+        </div>
+      </div>
+      <div class="log-field" style="margin-top:16px;">
+        <label class="form-label">Message *</label>
+        <textarea class="form-textarea" name="message" required placeholder="Tell us how we can help you today…"></textarea>
+      </div>
+      <button type="submit" class="btn-submit" id="enquiry-submit-btn" style="margin-top:24px;">Submit ✉</button>
+    </form>
+  </div>
 </div>
 
 <!-- LOG VISIT BUTTON -->
@@ -647,6 +693,40 @@ async function submitLog(e) {
   } catch(err) { btn.textContent = 'Error — Try Again'; btn.disabled = false; }
 }
 
+function openEnquiryModal() {
+  document.getElementById('enquiry-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeEnquiryModal() {
+  document.getElementById('enquiry-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeEnquiryOutside(e) {
+  if (e.target === document.getElementById('enquiry-overlay')) closeEnquiryModal();
+}
+async function submitEnquiry(e) {
+  e.preventDefault();
+  const form = document.getElementById('enquiry-form');
+  const btn = document.getElementById('enquiry-submit-btn');
+  const data = {
+    sheet: 'Enquiries',
+    first_name: form.first_name.value,
+    last_name: form.last_name.value,
+    company: form.company.value,
+    email: form.email.value,
+    phone: form.phone.value,
+    message: form.message.value,
+    meeting_date: form.meeting_date.value,
+  };
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+    form.reset();
+    btn.textContent = 'Sent ✓';
+    setTimeout(() => { closeEnquiryModal(); btn.textContent = 'Submit ✉'; btn.disabled = false; }, 1500);
+  } catch(err) { btn.textContent = 'Error — Try Again'; btn.disabled = false; }
+}
+
 async function loadSKUs() {
   const container = document.getElementById('sku-check-container');
   if (!container) return;
@@ -825,16 +905,18 @@ document.addEventListener('click', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Hide nav links and log visit button for visitor access
+  // Visitor access: hide team elements, show enquiry button
   if (sessionStorage.getItem('access') === 'visitor') {
     const navLinks = document.querySelector('.nav-links');
     const navToggle = document.querySelector('.nav-toggle');
     const logFab = document.querySelector('.log-visit-fab');
     const navLogo = document.querySelector('.nav-logo');
+    const enquiryBtn = document.getElementById('enquiry-btn');
     if (navLinks) navLinks.style.display = 'none';
     if (navToggle) navToggle.style.display = 'none';
     if (logFab) logFab.style.display = 'none';
     if (navLogo) { navLogo.removeAttribute('href'); navLogo.style.cursor = 'default'; }
+    if (enquiryBtn) enquiryBtn.style.display = 'block';
   }
   // Pre-fill rep name from session (set at login)
   const repName = sessionStorage.getItem('rep_name');

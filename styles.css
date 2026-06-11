@@ -1164,6 +1164,17 @@ footer {
 }
 .nav-more-menu a:hover { background: var(--dark-3); color: var(--teal); }
 
+/* ── ENQUIRY BUTTON ── */
+.enquiry-fab {
+  background: linear-gradient(135deg, #4ade80, #0BA896);
+  color: #fff; border: none; border-radius: 6px;
+  padding: 12px 28px; font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: opacity 0.2s;
+  white-space: nowrap; margin-top: 8px; flex-shrink: 0;
+}
+.enquiry-fab:hover { opacity: 0.85; }
+
 /* ── LOG VISIT FAB ── */
 .log-visit-fab {
   position: fixed; bottom: 32px; right: 32px;
